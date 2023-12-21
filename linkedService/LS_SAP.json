@@ -1,0 +1,21 @@
+{
+	"name": "LS_SAP",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SapTable",
+		"typeProperties": {
+			"clientId": "700",
+			"language": "EN",
+			"sncMode": false,
+			"userName": "EY_PROJECT",
+			"server": "100.70.82.172",
+			"systemNumber": "01",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIyNmQwZDA0ZS0wZmY3LTQ3YTktOTA0OS1mNTZiNmNmZDdjYmQiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "Anmol-SelfHosted-integrationRuntime1",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

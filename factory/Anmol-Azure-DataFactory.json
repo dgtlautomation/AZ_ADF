@@ -1,0 +1,9 @@
+{
+	"name": "Anmol-Azure-DataFactory",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "588de4fc-5879-476d-b6d8-7f6e78064ad1",
+		"tenantId": "76bd949d-7524-45b9-8cdb-b6c78bb489e3"
+	}
+}

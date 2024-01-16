@@ -11,7 +11,7 @@
 			"userName": "EY_PROJECT",
 			"server": "100.70.82.172",
 			"systemNumber": "01",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIzNzcyNjdkMS01ZTdjLTQ0YmYtYTcxNi05MGRhMjkzZjVjZjQiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI4NjQwMTlkMC03Y2MxLTQ0NDItYjIwOC0xZjg1MWZkODFjMzkiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
 			"referenceName": "Anmol-SelfHosted-integrationRuntime1",

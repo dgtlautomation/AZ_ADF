@@ -1,5 +1,5 @@
 {
-	"name": "DS_SAP_KNA1",
+	"name": "DS_SAP_Table_KNA1",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_SAP",

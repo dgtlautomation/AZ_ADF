@@ -17,13 +17,20 @@
 				"typeProperties": {
 					"source": {
 						"type": "SapTableSource",
-						"partitionOption": "None"
+						"rowCount": 10,
+						"rfcTableOptions": "",
+						"customRfcReadTableFunctionModule": "/SAPDS/RFC_READ_TABLE2",
+						"partitionOption": "None",
+						"sapDataColumnDelimiter": {
+							"value": "^",
+							"type": "Expression"
+						}
 					},
 					"enableStaging": false
 				},
 				"inputs": [
 					{
-						"referenceName": "DS_SAP_KNA1",
+						"referenceName": "DS_SAP_Table_KNA1",
 						"type": "DatasetReference"
 					}
 				]

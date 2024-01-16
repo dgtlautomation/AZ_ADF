@@ -17,6 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SapTableSource",
+						"rowCount": 10,
 						"rfcTableOptions": "",
 						"customRfcReadTableFunctionModule": "/SAPDS/RFC_READ_TABLE2",
 						"partitionOption": "None",

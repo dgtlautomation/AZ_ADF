@@ -10,6 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
+				"folderPath": "SAP/KNA1",
 				"container": "anmol-dev"
 			},
 			"columnDelimiter": {

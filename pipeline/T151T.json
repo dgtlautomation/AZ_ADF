@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "SapTableSource",
-						"rfcTableOptions": "",
+						"rfcTableOptions": "SPRAS EQ 'E'",
 						"customRfcReadTableFunctionModule": "/SAPDS/RFC_READ_TABLE2",
 						"partitionOption": "None",
 						"sapDataColumnDelimiter": {

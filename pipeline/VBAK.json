@@ -14,7 +14,7 @@
 					},
 					"ifFalseActivities": [
 						{
-							"name": "Set_variable_to_format_using_temp",
+							"name": "Set_variable_start_date_to_format_using_temp",
 							"type": "SetVariable",
 							"dependsOn": [],
 							"policy": {
@@ -35,7 +35,7 @@
 							"type": "SetVariable",
 							"dependsOn": [
 								{
-									"activity": "Set_variable_to_format_using_temp",
+									"activity": "Set_variable_start_date_to_format_using_temp",
 									"dependencyConditions": [
 										"Succeeded"
 									]

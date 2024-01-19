@@ -18,7 +18,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": " @dataset().filename",
+				"fileName": "@dataset().filename",
 				"folderPath": "@dataset().sink_path",
 				"container": "anmol-dev"
 			},

@@ -28,6 +28,42 @@
 						"value": "@empty(variables('start_date'))",
 						"type": "Expression"
 					},
+					"ifFalseActivities": [
+						{
+							"name": "Set_variable_to_format_using_temp",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "start_date_temp1",
+								"value": {
+									"value": "@formatDateTime(variables('start_date'),'yyyy-MM-dd')",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Assign_temp_to_Start_Date",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "start_date",
+								"value": {
+									"value": "@variables('start_date_temp1')",
+									"type": "Expression"
+								}
+							}
+						}
+					],
 					"ifTrueActivities": [
 						{
 							"name": "Set_variable_to_previous_start_date",
@@ -45,16 +81,6 @@
 									"type": "Expression"
 								}
 							}
-						},
-						{
-							"name": "Set variable1",
-							"type": "SetVariable",
-							"dependsOn": [],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": []
 						}
 					]
 				}

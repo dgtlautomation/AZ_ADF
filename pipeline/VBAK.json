@@ -231,6 +231,170 @@
 						"value": "@greaterOrEquals(variables('start_date'),variables('end_date'))",
 						"type": "Expression"
 					},
+					"activities": [
+						{
+							"name": "Condition_for_fiscal_month",
+							"type": "IfCondition",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@less(int(formatDateTime(variables('start_date'),'MM')),4)",
+									"type": "Expression"
+								},
+								"ifFalseActivities": [
+									{
+										"name": "Subtract three from Month",
+										"type": "SetVariable",
+										"dependsOn": [],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "set_fiscalyear_month",
+											"value": {
+												"value": "@{formatDateTime(concat(string(int(formatDateTime(variables('start_date'),'yyyy'))),'-',string(add(int(formatDateTime(variables('start_date'),'MM')),-3))))}",
+												"type": "Expression"
+											}
+										}
+									},
+									{
+										"name": "Set Actuall Fiscal Year and Month",
+										"type": "SetVariable",
+										"dependsOn": [
+											{
+												"activity": "Subtract three from Month",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "year_temp",
+											"value": {
+												"value": "@variables('set_fiscalyear_month')",
+												"type": "Expression"
+											}
+										}
+									}
+								],
+								"ifTrueActivities": [
+									{
+										"name": "Subtracted year by 1",
+										"type": "SetVariable",
+										"dependsOn": [],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "set_fiscalyear_month",
+											"value": {
+												"value": "@{formatDateTime(concat(string(add(int(formatDateTime(variables('start_date'),'yyyy')),-1)),'-',string(add(int(formatDateTime(variables('start_date'),'MM')),9))))}",
+												"type": "Expression"
+											}
+										}
+									},
+									{
+										"name": "Set_actual_year_and_month",
+										"type": "SetVariable",
+										"dependsOn": [
+											{
+												"activity": "Subtracted year by 1 ",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "year_temp",
+											"value": {
+												"value": "@variables('set_fiscalyear_month')",
+												"type": "Expression"
+											}
+										}
+									}
+								]
+							}
+						},
+						{
+							"name": "Set Sink Path",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Condition_for_fiscal_month",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "year",
+								"value": {
+									"value": "@{concat(formatDateTime(variables('year_temp'),'yyyy/MM/'),formatDateTime(variables('start_date'),'dd'))}",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Set Filename",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Set Sink Path",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "filename",
+								"value": {
+									"value": "@concat('VBAK_',formatDateTime(variables('start_date'),'yyyyMMdd'),'.csv')",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Copy SAP Table VBAK",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"enableStaging": false
+							}
+						}
+					],
 					"timeout": "0.12:00:00"
 				}
 			}

@@ -381,7 +381,14 @@
 						{
 							"name": "Copy SAP Table VBAK",
 							"type": "Copy",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "Set Filename",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -391,7 +398,100 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"enableStaging": false
+								"source": {
+									"type": "SapTableSource",
+									"rfcTableOptions": {
+										"value": "@{concat('ERDAT EQ ',variables('single_quote'), formatDateTime(variables('start_date'),'yyyyMMdd'), variables('single_quote'))}",
+										"type": "Expression"
+									},
+									"customRfcReadTableFunctionModule": "",
+									"partitionOption": "None",
+									"sapDataColumnDelimiter": "^"
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobStorageWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".csv"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "DS_SAP_Table_VBAK",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DelimitedText_VBAK",
+									"type": "DatasetReference",
+									"parameters": {
+										"filename": "@variables('filename')",
+										"sink_path": "SAP/VBAK/@{variables('year')}"
+									}
+								}
+							]
+						},
+						{
+							"name": "Incremental Start Date using temp",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Copy SAP Table VBAK",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "start_date_temp",
+								"value": {
+									"value": "@addDays(variables('start_date'),1)",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Assign Incremental Start",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Incremental Start Date using temp",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "start_date",
+								"value": {
+									"value": "@variables('start_date_temp')",
+									"type": "Expression"
+								}
 							}
 						}
 					],

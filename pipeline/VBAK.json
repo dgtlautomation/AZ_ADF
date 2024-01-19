@@ -49,7 +49,14 @@
 						{
 							"name": "Assign_temp_to_Start_Date",
 							"type": "SetVariable",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "Set_variable_to_format_using_temp",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"secureOutput": false,
 								"secureInput": false

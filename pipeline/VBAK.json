@@ -95,7 +95,7 @@
 					},
 					"ifFalseActivities": [
 						{
-							"name": "Set_end_date_variable_to_format",
+							"name": "Set_end_date_variable_to_format_using_temp",
 							"type": "SetVariable",
 							"dependsOn": [],
 							"policy": {
@@ -116,7 +116,7 @@
 							"type": "SetVariable",
 							"dependsOn": [
 								{
-									"activity": "Set_end_date_variable_to_format",
+									"activity": "Set_end_date_variable_to_format_using_temp",
 									"dependencyConditions": [
 										"Succeeded"
 									]

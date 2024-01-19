@@ -30,7 +30,7 @@
 					},
 					"ifTrueActivities": [
 						{
-							"name": "start_date",
+							"name": "Set_variable_to_previous_start_date",
 							"type": "SetVariable",
 							"dependsOn": [],
 							"policy": {
@@ -45,6 +45,16 @@
 									"type": "Expression"
 								}
 							}
+						},
+						{
+							"name": "Set variable1",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": []
 						}
 					]
 				}

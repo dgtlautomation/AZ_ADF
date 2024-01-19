@@ -278,7 +278,7 @@
 								],
 								"ifTrueActivities": [
 									{
-										"name": "Subtracted year by 1",
+										"name": "Subtracted year by 1 and add by  9 months",
 										"type": "SetVariable",
 										"dependsOn": [],
 										"policy": {
@@ -299,7 +299,7 @@
 										"type": "SetVariable",
 										"dependsOn": [
 											{
-												"activity": "Subtracted year by 1 ",
+												"activity": "Subtracted year by 1 and add by  9 months",
 												"dependencyConditions": [
 													"Succeeded"
 												]

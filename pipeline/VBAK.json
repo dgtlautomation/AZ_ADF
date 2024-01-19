@@ -1,0 +1,63 @@
+{
+	"name": "VBAK",
+	"properties": {
+		"activities": [
+			{
+				"name": "VBAK",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"enableStaging": false
+				}
+			}
+		],
+		"variables": {
+			"start_date": {
+				"type": "String"
+			},
+			"end_date": {
+				"type": "String"
+			},
+			"single_quote": {
+				"type": "String",
+				"defaultValue": "'"
+			},
+			"year": {
+				"type": "String"
+			},
+			"filename": {
+				"type": "String"
+			},
+			"start_date_temp": {
+				"type": "String"
+			},
+			"end_date_temp": {
+				"type": "String"
+			},
+			"start_date_temp1": {
+				"type": "String"
+			},
+			"end_date_temp1": {
+				"type": "String"
+			},
+			"set_fiscalyear_month": {
+				"type": "String"
+			},
+			"year_temp": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "Transactional"
+		},
+		"annotations": []
+	}
+}

@@ -102,6 +102,25 @@
 						"value": "@empty(variables('end_date'))",
 						"type": "Expression"
 					},
+					"ifFalseActivities": [
+						{
+							"name": "Set_end_date_variable_to_format",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "end_date_temp1",
+								"value": {
+									"value": "@formatDateTime(variables('end_date'),'yyyy-MM-dd')",
+									"type": "Expression"
+								}
+							}
+						}
+					],
 					"ifTrueActivities": [
 						{
 							"name": "Set_variable_to_previous_end_date",

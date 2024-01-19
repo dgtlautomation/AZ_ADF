@@ -138,7 +138,7 @@
 					],
 					"ifTrueActivities": [
 						{
-							"name": "Set_variable_to_previous_end_date",
+							"name": "Set_variable-end_date_to_previous_end_date",
 							"type": "SetVariable",
 							"dependsOn": [],
 							"policy": {

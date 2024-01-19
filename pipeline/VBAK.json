@@ -95,7 +95,14 @@
 			{
 				"name": "Condition_end_date_empty",
 				"type": "IfCondition",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Condition_start_date_empty",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
@@ -164,6 +171,67 @@
 							}
 						}
 					]
+				}
+			},
+			{
+				"name": "Increament_end_date_using_temp_end",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Condition_end_date_empty",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "end_date_temp",
+					"value": {
+						"value": "@addDays(variables('end_date'),1)",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Assign_increment_end_date",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Increament_end_date_using_temp_end",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "end_date",
+					"value": {
+						"value": "@variables('end_date_temp')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Until1",
+				"type": "Until",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@greaterOrEquals(variables('start_date'),variables('end_date'))",
+						"type": "Expression"
+					},
+					"timeout": "0.12:00:00"
 				}
 			}
 		],

@@ -182,7 +182,7 @@
 				}
 			},
 			{
-				"name": "Assign_increment_end_date",
+				"name": "Assign_increment_end_date_to_end_date",
 				"type": "SetVariable",
 				"dependsOn": [
 					{
@@ -210,7 +210,7 @@
 				"type": "Until",
 				"dependsOn": [
 					{
-						"activity": "Assign_increment_end_date",
+						"activity": "Assign_increment_end_date_to_end_date",
 						"dependencyConditions": [
 							"Succeeded"
 						]

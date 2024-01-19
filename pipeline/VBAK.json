@@ -119,6 +119,30 @@
 									"type": "Expression"
 								}
 							}
+						},
+						{
+							"name": "Assign_temp_to_end_date",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Set_end_date_variable_to_format",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "end_date",
+								"value": {
+									"value": "@variables('end_date_temp1')",
+									"type": "Expression"
+								}
+							}
 						}
 					],
 					"ifTrueActivities": [

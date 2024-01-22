@@ -429,7 +429,11 @@
 							"outputs": [
 								{
 									"referenceName": "DelimitedText_VBAP",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"filename": "@variables('filename')",
+										"sink_path": "SAP/VBAP/@{variables('year')}"
+									}
 								}
 							]
 						},

@@ -492,10 +492,12 @@
 		],
 		"variables": {
 			"start_date": {
-				"type": "String"
+				"type": "String",
+				"defaultValue": "2024-01-20"
 			},
 			"end_date": {
-				"type": "String"
+				"type": "String",
+				"defaultValue": "2024-01-21"
 			},
 			"single_quote": {
 				"type": "String",

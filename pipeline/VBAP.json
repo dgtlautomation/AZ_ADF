@@ -493,7 +493,7 @@
 		"variables": {
 			"start_date": {
 				"type": "String",
-				"defaultValue": "2023-04-03"
+				"defaultValue": "2023-04-01"
 			},
 			"end_date": {
 				"type": "String",

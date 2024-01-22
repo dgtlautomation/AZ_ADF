@@ -1,0 +1,534 @@
+{
+	"name": "VBRK",
+	"properties": {
+		"activities": [
+			{
+				"name": "Condition_start_date_empty",
+				"type": "IfCondition",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@empty(variables('start_date'))",
+						"type": "Expression"
+					},
+					"ifFalseActivities": [
+						{
+							"name": "Set_variable_start_date_to_format_using_temp",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "start_date_temp1",
+								"value": {
+									"value": "@formatDateTime(variables('start_date'),'yyyy-MM-dd')",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Assign_temp_to_Start_Date",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Set_variable_start_date_to_format_using_temp",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "start_date",
+								"value": {
+									"value": "@variables('start_date_temp1')",
+									"type": "Expression"
+								}
+							}
+						}
+					],
+					"ifTrueActivities": [
+						{
+							"name": "Set_variable_to_previous_start_date",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "start_date",
+								"value": {
+									"value": "@formatDateTime(addDays(convertTimeZone(utcNow(),'UTC','India Standard Time'),-1),'yyyy-MM-dd')",
+									"type": "Expression"
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Condition_end_date_empty",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Condition_start_date_empty",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@empty(variables('end_date'))",
+						"type": "Expression"
+					},
+					"ifFalseActivities": [
+						{
+							"name": "Set_end_date_variable_to_format_using_temp",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "end_date_temp1",
+								"value": {
+									"value": "@formatDateTime(variables('end_date'),'yyyy-MM-dd')",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Assign_temp_to_end_date",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Set_end_date_variable_to_format_using_temp",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "end_date",
+								"value": {
+									"value": "@variables('end_date_temp1')",
+									"type": "Expression"
+								}
+							}
+						}
+					],
+					"ifTrueActivities": [
+						{
+							"name": "Set_variable-end_date_to_previous_end_date",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "end_date",
+								"value": {
+									"value": "@formatDateTime(addDays(convertTimeZone(utcNow(),'UTC','India Standard Time'),-1),'yyyy-MM-dd')",
+									"type": "Expression"
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "Increament_end_date_using_temp_end_date",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Condition_end_date_empty",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "end_date_temp",
+					"value": {
+						"value": "@addDays(variables('end_date'),1)",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Assign_increment_end_date_to_end_date",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Increament_end_date_using_temp_end_date",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "end_date",
+					"value": {
+						"value": "@variables('end_date_temp')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Until1",
+				"type": "Until",
+				"dependsOn": [
+					{
+						"activity": "Assign_increment_end_date_to_end_date",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@greaterOrEquals(variables('start_date'),variables('end_date'))",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Condition_for_fiscal_month",
+							"type": "IfCondition",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@less(int(formatDateTime(variables('start_date'),'MM')),4)",
+									"type": "Expression"
+								},
+								"ifFalseActivities": [
+									{
+										"name": "Subtract three from Month",
+										"type": "SetVariable",
+										"dependsOn": [],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "set_fiscalyear_month",
+											"value": {
+												"value": "@{formatDateTime(concat(string(int(formatDateTime(variables('start_date'),'yyyy'))),'-',string(add(int(formatDateTime(variables('start_date'),'MM')),-3))))}",
+												"type": "Expression"
+											}
+										}
+									},
+									{
+										"name": "Set Actuall Fiscal Year and Month",
+										"type": "SetVariable",
+										"dependsOn": [
+											{
+												"activity": "Subtract three from Month",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "year_temp",
+											"value": {
+												"value": "@variables('set_fiscalyear_month')",
+												"type": "Expression"
+											}
+										}
+									}
+								],
+								"ifTrueActivities": [
+									{
+										"name": "Subtracted year by 1 and add by  9 months",
+										"type": "SetVariable",
+										"dependsOn": [],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "set_fiscalyear_month",
+											"value": {
+												"value": "@{formatDateTime(concat(string(add(int(formatDateTime(variables('start_date'),'yyyy')),-1)),'-',string(add(int(formatDateTime(variables('start_date'),'MM')),9))))}",
+												"type": "Expression"
+											}
+										}
+									},
+									{
+										"name": "Set_actual_year_and_month",
+										"type": "SetVariable",
+										"dependsOn": [
+											{
+												"activity": "Subtracted year by 1 and add by  9 months",
+												"dependencyConditions": [
+													"Succeeded"
+												]
+											}
+										],
+										"policy": {
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"variableName": "year_temp",
+											"value": {
+												"value": "@variables('set_fiscalyear_month')",
+												"type": "Expression"
+											}
+										}
+									}
+								]
+							}
+						},
+						{
+							"name": "Set Sink Path",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Condition_for_fiscal_month",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "year",
+								"value": {
+									"value": "@{concat(formatDateTime(variables('year_temp'),'yyyy/MM/'),formatDateTime(variables('start_date'),'dd'))}",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Set Filename",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Set Sink Path",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "filename",
+								"value": {
+									"value": "@concat('VBRK_',formatDateTime(variables('start_date'),'yyyyMMdd'),'.csv')",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Copy SAP Table VBRK",
+							"type": "Copy",
+							"dependsOn": [
+								{
+									"activity": "Set Filename",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "SapTableSource",
+									"rfcTableOptions": {
+										"value": "@{concat('ERDAT EQ ',variables('single_quote'), formatDateTime(variables('start_date'),'yyyyMMdd'), variables('single_quote'))}",
+										"type": "Expression"
+									},
+									"customRfcReadTableFunctionModule": "",
+									"partitionOption": "None",
+									"sapDataColumnDelimiter": "^"
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobStorageWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".csv"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "DS_SAP_Table_VBRK",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DelimitedText_VBRK",
+									"type": "DatasetReference",
+									"parameters": {
+										"filename": "@variables('filename')",
+										"sink_path": "SAP/VBRK/@{variables('year')}"
+									}
+								}
+							]
+						},
+						{
+							"name": "Incremental Start Date using temp",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Copy SAP Table VBRK",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "start_date_temp",
+								"value": {
+									"value": "@addDays(variables('start_date'),1)",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Assign Incremental Start",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Incremental Start Date using temp",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "start_date",
+								"value": {
+									"value": "@variables('start_date_temp')",
+									"type": "Expression"
+								}
+							}
+						}
+					],
+					"timeout": "0.12:00:00"
+				}
+			}
+		],
+		"variables": {
+			"start_date": {
+				"type": "String"
+			},
+			"end_date": {
+				"type": "String"
+			},
+			"single_quote": {
+				"type": "String",
+				"defaultValue": "'"
+			},
+			"year": {
+				"type": "String"
+			},
+			"filename": {
+				"type": "String"
+			},
+			"start_date_temp": {
+				"type": "String"
+			},
+			"end_date_temp": {
+				"type": "String"
+			},
+			"start_date_temp1": {
+				"type": "String"
+			},
+			"end_date_temp1": {
+				"type": "String"
+			},
+			"set_fiscalyear_month": {
+				"type": "String"
+			},
+			"year_temp": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "Transactional"
+		},
+		"annotations": []
+	}
+}

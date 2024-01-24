@@ -395,7 +395,7 @@
 										"value": "@{concat('ERDAT EQ ',variables('single_quote'), formatDateTime(variables('start_date'),'yyyyMMdd'), variables('single_quote'))}",
 										"type": "Expression"
 									},
-									"customRfcReadTableFunctionModule": "",
+									"customRfcReadTableFunctionModule": "/SAPDS/RFC_READ_TABLE2",
 									"partitionOption": "None",
 									"sapDataColumnDelimiter": "^"
 								},
@@ -493,7 +493,7 @@
 		"variables": {
 			"start_date": {
 				"type": "String",
-				"defaultValue": "2024-01-20"
+				"defaultValue": "2023-04-01"
 			},
 			"end_date": {
 				"type": "String",

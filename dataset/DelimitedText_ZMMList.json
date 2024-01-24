@@ -1,0 +1,26 @@
+{
+	"name": "DelimitedText_ZMMList",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_Blob_Dev",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "SAP/ZMMLIST",
+				"container": "anmol-dev"
+			},
+			"columnDelimiter": {
+				"value": "^",
+				"type": "Expression"
+			},
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": ""
+		},
+		"schema": []
+	}
+}

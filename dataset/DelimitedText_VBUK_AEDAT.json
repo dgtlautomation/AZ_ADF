@@ -20,7 +20,7 @@
 				"type": "AzureBlobStorageLocation",
 				"fileName": "@dataset().filename",
 				"folderPath": "@dataset().sink_path",
-				"container": "anmol-prod"
+				"container": "anmol-dev"
 			},
 			"columnDelimiter": {
 				"value": "^",

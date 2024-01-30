@@ -54,7 +54,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "DelimitedText_CEPC",
+						"referenceName": "DelimitedText_ZMMList",
 						"type": "DatasetReference"
 					}
 				]

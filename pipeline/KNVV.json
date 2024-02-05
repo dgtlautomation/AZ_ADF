@@ -55,7 +55,13 @@
 				"outputs": [
 					{
 						"referenceName": "DelimitedText_KNVV",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"blob": {
+								"value": "@pipeline().globalParameters.blob",
+								"type": "Expression"
+							}
+						}
 					}
 				]
 			}

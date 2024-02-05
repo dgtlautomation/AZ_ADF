@@ -11,6 +11,9 @@
 			},
 			"sink_path": {
 				"type": "string"
+			},
+			"blob": {
+				"type": "string"
 			}
 		},
 		"annotations": [],
@@ -26,7 +29,10 @@
 					"value": "@dataset().sink_path",
 					"type": "Expression"
 				},
-				"container": "anmol-dev"
+				"container": {
+					"value": "@dataset().blob",
+					"type": "Expression"
+				}
 			},
 			"columnDelimiter": {
 				"value": "^",

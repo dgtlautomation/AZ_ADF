@@ -2,7 +2,7 @@
 	"name": "Anmol-Azure-DataFactory",
 	"properties": {
 		"globalParameters": {
-			"prod_blob": {
+			"blob": {
 				"type": "string",
 				"value": "anmol-prod"
 			}

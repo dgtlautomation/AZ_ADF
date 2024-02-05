@@ -2,7 +2,7 @@
 	"name": "DelimitedText_VBRP",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "LS_Blob_Dev",
+			"referenceName": "LS_Blob",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
@@ -18,8 +18,14 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "@dataset().filename",
-				"folderPath": "@dataset().sink_path",
+				"fileName": {
+					"value": "@dataset().filename",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@dataset().sink_path",
+					"type": "Expression"
+				},
 				"container": "anmol-dev"
 			},
 			"columnDelimiter": {

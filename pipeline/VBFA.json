@@ -432,7 +432,11 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"filename": "@variables('filename')",
-										"sink_path": "SAP/VBFA/@{variables('year')}"
+										"sink_path": "SAP/VBFA/@{variables('year')}",
+										"blob": {
+											"value": "@pipeline().globalParameters.blob",
+											"type": "Expression"
+										}
 									}
 								}
 							]

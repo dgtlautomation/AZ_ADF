@@ -4,7 +4,7 @@
 		"globalParameters": {
 			"blob": {
 				"type": "string",
-				"value": "anmol-prod"
+				"value": "anmol-dev"
 			}
 		}
 	},

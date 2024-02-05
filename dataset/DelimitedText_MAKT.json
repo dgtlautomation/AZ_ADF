@@ -5,13 +5,21 @@
 			"referenceName": "LS_Blob",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"blob": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
 				"folderPath": "SAP/MAKT",
-				"container": "anmol-dev"
+				"container": {
+					"value": "@dataset().blob",
+					"type": "Expression"
+				}
 			},
 			"columnDelimiter": {
 				"value": "^",

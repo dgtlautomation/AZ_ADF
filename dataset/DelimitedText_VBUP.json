@@ -2,7 +2,7 @@
 	"name": "DelimitedText_VBUP",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "LS_Blob_Dev",
+			"referenceName": "LS_Blob",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],

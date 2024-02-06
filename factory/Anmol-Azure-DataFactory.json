@@ -1,5 +1,13 @@
 {
 	"name": "Anmol-Azure-DataFactory",
+	"properties": {
+		"globalParameters": {
+			"blob": {
+				"type": "string",
+				"value": "anmol-prod"
+			}
+		}
+	},
 	"location": "centralindia",
 	"identity": {
 		"type": "SystemAssigned",

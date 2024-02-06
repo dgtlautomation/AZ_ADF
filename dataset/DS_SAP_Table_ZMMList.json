@@ -1,0 +1,15 @@
+{
+	"name": "DS_SAP_Table_ZMMList",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SAP",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SapTableResource",
+		"schema": [],
+		"typeProperties": {
+			"tableName": "ZMMLIST"
+		}
+	}
+}

@@ -1,0 +1,34 @@
+{
+	"name": "DelimitedText_CEPC",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_Blob",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"blob": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "SAP/CEPC",
+				"container": {
+					"value": "@dataset().blob",
+					"type": "Expression"
+				}
+			},
+			"columnDelimiter": {
+				"value": "^",
+				"type": "Expression"
+			},
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": ""
+		},
+		"schema": []
+	}
+}

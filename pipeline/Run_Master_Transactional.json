@@ -1,0 +1,50 @@
+{
+	"name": "Run_Master_Transactional",
+	"properties": {
+		"activities": [
+			{
+				"name": "Load_Master",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Run_Master",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Load_Transactional",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Load_Master",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Run_Transactional",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "Data Load"
+		},
+		"annotations": []
+	}
+}

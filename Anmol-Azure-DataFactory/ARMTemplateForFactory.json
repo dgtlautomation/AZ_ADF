@@ -1,0 +1,6591 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "Anmol-Azure-DataFactory"
+		},
+		"LS_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS'"
+		},
+		"LS_Blob_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LS_Blob'"
+		},
+		"LS_Blob_Dev_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LS_Blob_Dev'"
+		},
+		"LS_SAP_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_SAP'"
+		},
+		"LS_properties_typeProperties_clientId": {
+			"type": "string",
+			"defaultValue": "700"
+		},
+		"LS_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "EY_PROJECT"
+		},
+		"LS_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "100.70.82.172"
+		},
+		"LS_properties_typeProperties_systemNumber": {
+			"type": "string",
+			"defaultValue": "01"
+		},
+		"LS_SAP_properties_typeProperties_clientId": {
+			"type": "string",
+			"defaultValue": "700"
+		},
+		"LS_SAP_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "EY_PROJECT"
+		},
+		"LS_SAP_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "100.70.82.172"
+		},
+		"LS_SAP_properties_typeProperties_systemNumber": {
+			"type": "string",
+			"defaultValue": "01"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/CEPC')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "CEPC",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapTableSource",
+								"rfcTableOptions": "",
+								"customRfcReadTableFunctionModule": "/SAPDS/RFC_READ_TABLE2",
+								"partitionOption": "None",
+								"sapDataColumnDelimiter": {
+									"value": "^",
+									"type": "Expression"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_SAP_Table_CEPC",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DelimitedText_CEPC",
+								"type": "DatasetReference",
+								"parameters": {
+									"blob": {
+										"value": "@pipeline().globalParameters.blob",
+										"type": "Expression"
+									}
+								}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "Master"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_SAP_Table_CEPC')]",
+				"[concat(variables('factoryId'), '/datasets/DelimitedText_CEPC')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/KNA1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "KNA1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapTableSource",
+								"rfcTableOptions": "",
+								"customRfcReadTableFunctionModule": "/SAPDS/RFC_READ_TABLE2",
+								"partitionOption": "None",
+								"sapDataColumnDelimiter": {
+									"value": "^",
+									"type": "Expression"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_SAP_Table_KNA1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DelimitedText_KNA1",
+								"type": "DatasetReference",
+								"parameters": {
+									"blob": {
+										"value": "@pipeline().globalParameters.blob",
+										"type": "Expression"
+									}
+								}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "Master"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_SAP_Table_KNA1')]",
+				"[concat(variables('factoryId'), '/datasets/DelimitedText_KNA1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/KNVV')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "KNVV",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapTableSource",
+								"rfcTableOptions": "",
+								"customRfcReadTableFunctionModule": "/SAPDS/RFC_READ_TABLE2",
+								"partitionOption": "None",
+								"sapDataColumnDelimiter": {
+									"value": "^",
+									"type": "Expression"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_SAP_Table_KNVV",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DelimitedText_KNVV",
+								"type": "DatasetReference",
+								"parameters": {
+									"blob": {
+										"value": "@pipeline().globalParameters.blob",
+										"type": "Expression"
+									}
+								}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "Master"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_SAP_Table_KNVV')]",
+				"[concat(variables('factoryId'), '/datasets/DelimitedText_KNVV')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MAKT')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "MAKT",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapTableSource",
+								"rfcTableOptions": "SPRAS EQ 'E'",
+								"customRfcReadTableFunctionModule": "/SAPDS/RFC_READ_TABLE2",
+								"partitionOption": "None",
+								"sapDataColumnDelimiter": {
+									"value": "^",
+									"type": "Expression"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_SAP_Table_MAKT",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DelimitedText_MAKT",
+								"type": "DatasetReference",
+								"parameters": {
+									"blob": {
+										"value": "@pipeline().globalParameters.blob",
+										"type": "Expression"
+									}
+								}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "Master"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_SAP_Table_MAKT')]",
+				"[concat(variables('factoryId'), '/datasets/DelimitedText_MAKT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MARA')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "MARA",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapTableSource",
+								"rfcTableOptions": "",
+								"customRfcReadTableFunctionModule": "/SAPDS/RFC_READ_TABLE2",
+								"partitionOption": "None",
+								"sapDataColumnDelimiter": {
+									"value": "^",
+									"type": "Expression"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_SAP_Table_MARA",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DelimitedText_MARA",
+								"type": "DatasetReference",
+								"parameters": {
+									"blob": {
+										"value": "@pipeline().globalParameters.blob",
+										"type": "Expression"
+									}
+								}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "Master"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_SAP_Table_MARA')]",
+				"[concat(variables('factoryId'), '/datasets/DelimitedText_MARA')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/MARC')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "MARC",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapTableSource",
+								"rfcTableOptions": "",
+								"customRfcReadTableFunctionModule": "/SAPDS/RFC_READ_TABLE2",
+								"partitionOption": "None",
+								"sapDataColumnDelimiter": {
+									"value": "^",
+									"type": "Expression"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_SAP_Table_MARC",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DelimitedText_MARC",
+								"type": "DatasetReference",
+								"parameters": {
+									"blob": {
+										"value": "@pipeline().globalParameters.blob",
+										"type": "Expression"
+									}
+								}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "Master"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_SAP_Table_MARC')]",
+				"[concat(variables('factoryId'), '/datasets/DelimitedText_MARC')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Run_Master')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Load_CEPC",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "CEPC",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "Load_KNA1",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Load_CEPC",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "KNA1",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "Load_KNVV",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Load_KNA1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "KNVV",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "Load_MAKT",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Load_KNVV",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "MAKT",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "Load_MARA",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Load_MAKT",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "MARA",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "Load_MARC",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Load_MARA",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "MARC",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "Load_T151T",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Load_MARC",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "T151T",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "Load_VBUK",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Load_T151T",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "VBUK",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "Load_VBUP",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Load_VBUK",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "VBUP",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "Load_ZCUST_ADD_DETAIL",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Load_VBUP",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "ZCUST_ADD_DETAIL",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "Master"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/CEPC')]",
+				"[concat(variables('factoryId'), '/pipelines/KNA1')]",
+				"[concat(variables('factoryId'), '/pipelines/KNVV')]",
+				"[concat(variables('factoryId'), '/pipelines/MAKT')]",
+				"[concat(variables('factoryId'), '/pipelines/MARA')]",
+				"[concat(variables('factoryId'), '/pipelines/MARC')]",
+				"[concat(variables('factoryId'), '/pipelines/T151T')]",
+				"[concat(variables('factoryId'), '/pipelines/VBUK')]",
+				"[concat(variables('factoryId'), '/pipelines/VBUP')]",
+				"[concat(variables('factoryId'), '/pipelines/ZCUST_ADD_DETAIL')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Run_Master_Transactional')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Load_Master",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "Run_Master",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "Load_Transactional",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Load_Master",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "Run_Transactional",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "Data Load"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/Run_Master')]",
+				"[concat(variables('factoryId'), '/pipelines/Run_Transactional')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Run_Transactional')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Load_VBAK",
+						"type": "ExecutePipeline",
+						"dependsOn": [],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "VBAK",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "Load_VBAP",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Load_VBAK",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "VBAP",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "Load_VBFA",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Load_VBAP",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "VBFA",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "Load_VBRK",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Load_VBFA",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "VBRK",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "Load_VBRP",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Load_VBRK",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "VBRP",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					},
+					{
+						"name": "Load_VBUK_AEDAT",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Load_VBRP",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "VBUK_AEDAT",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "Transactional"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/VBAK')]",
+				"[concat(variables('factoryId'), '/pipelines/VBAP')]",
+				"[concat(variables('factoryId'), '/pipelines/VBFA')]",
+				"[concat(variables('factoryId'), '/pipelines/VBRK')]",
+				"[concat(variables('factoryId'), '/pipelines/VBRP')]",
+				"[concat(variables('factoryId'), '/pipelines/VBUK_AEDAT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/T151T')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "T151T",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapTableSource",
+								"rfcTableOptions": "SPRAS EQ 'E'",
+								"customRfcReadTableFunctionModule": "/SAPDS/RFC_READ_TABLE2",
+								"partitionOption": "None",
+								"sapDataColumnDelimiter": {
+									"value": "^",
+									"type": "Expression"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_SAP_Table_T151T",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DelimitedText_T151T",
+								"type": "DatasetReference",
+								"parameters": {
+									"blob": {
+										"value": "@pipeline().globalParameters.blob",
+										"type": "Expression"
+									}
+								}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "Master"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_SAP_Table_T151T')]",
+				"[concat(variables('factoryId'), '/datasets/DelimitedText_T151T')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/VBAK')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Condition_start_date_empty",
+						"type": "IfCondition",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@empty(variables('start_date'))",
+								"type": "Expression"
+							},
+							"ifFalseActivities": [
+								{
+									"name": "Set_variable_start_date_to_format_using_temp",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date_temp1",
+										"value": {
+											"value": "@formatDateTime(variables('start_date'),'yyyy-MM-dd')",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Assign_temp_to_Start_Date",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Set_variable_start_date_to_format_using_temp",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date",
+										"value": {
+											"value": "@variables('start_date_temp1')",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"ifTrueActivities": [
+								{
+									"name": "Set_variable_to_previous_start_date",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date",
+										"value": {
+											"value": "@formatDateTime(addDays(convertTimeZone(utcNow(),'UTC','India Standard Time'),-1),'yyyy-MM-dd')",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "Condition_end_date_empty",
+						"type": "IfCondition",
+						"dependsOn": [
+							{
+								"activity": "Condition_start_date_empty",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@empty(variables('end_date'))",
+								"type": "Expression"
+							},
+							"ifFalseActivities": [
+								{
+									"name": "Set_end_date_variable_to_format_using_temp",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "end_date_temp1",
+										"value": {
+											"value": "@formatDateTime(variables('end_date'),'yyyy-MM-dd')",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Assign_temp_to_end_date",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Set_end_date_variable_to_format_using_temp",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "end_date",
+										"value": {
+											"value": "@variables('end_date_temp1')",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"ifTrueActivities": [
+								{
+									"name": "Set_variable-end_date_to_previous_end_date",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "end_date",
+										"value": {
+											"value": "@formatDateTime(addDays(convertTimeZone(utcNow(),'UTC','India Standard Time'),-1),'yyyy-MM-dd')",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "Increament_end_date_using_temp_end_date",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "Condition_end_date_empty",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "end_date_temp",
+							"value": {
+								"value": "@addDays(variables('end_date'),1)",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Assign_increment_end_date_to_end_date",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "Increament_end_date_using_temp_end_date",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "end_date",
+							"value": {
+								"value": "@variables('end_date_temp')",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Until1",
+						"type": "Until",
+						"dependsOn": [
+							{
+								"activity": "Assign_increment_end_date_to_end_date",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@greaterOrEquals(variables('start_date'),variables('end_date'))",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Condition_for_fiscal_month",
+									"type": "IfCondition",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"expression": {
+											"value": "@less(int(formatDateTime(variables('start_date'),'MM')),4)",
+											"type": "Expression"
+										},
+										"ifFalseActivities": [
+											{
+												"name": "Subtract three from Month",
+												"type": "SetVariable",
+												"dependsOn": [],
+												"policy": {
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "set_fiscalyear_month",
+													"value": {
+														"value": "@{formatDateTime(concat(string(int(formatDateTime(variables('start_date'),'yyyy'))),'-',string(add(int(formatDateTime(variables('start_date'),'MM')),-3))))}",
+														"type": "Expression"
+													}
+												}
+											},
+											{
+												"name": "Set Actuall Fiscal Year and Month",
+												"type": "SetVariable",
+												"dependsOn": [
+													{
+														"activity": "Subtract three from Month",
+														"dependencyConditions": [
+															"Succeeded"
+														]
+													}
+												],
+												"policy": {
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "year_temp",
+													"value": {
+														"value": "@variables('set_fiscalyear_month')",
+														"type": "Expression"
+													}
+												}
+											}
+										],
+										"ifTrueActivities": [
+											{
+												"name": "Subtracted year by 1 and add by  9 months",
+												"type": "SetVariable",
+												"dependsOn": [],
+												"policy": {
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "set_fiscalyear_month",
+													"value": {
+														"value": "@{formatDateTime(concat(string(add(int(formatDateTime(variables('start_date'),'yyyy')),-1)),'-',string(add(int(formatDateTime(variables('start_date'),'MM')),9))))}",
+														"type": "Expression"
+													}
+												}
+											},
+											{
+												"name": "Set_actual_year_and_month",
+												"type": "SetVariable",
+												"dependsOn": [
+													{
+														"activity": "Subtracted year by 1 and add by  9 months",
+														"dependencyConditions": [
+															"Succeeded"
+														]
+													}
+												],
+												"policy": {
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "year_temp",
+													"value": {
+														"value": "@variables('set_fiscalyear_month')",
+														"type": "Expression"
+													}
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "Set Sink Path",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Condition_for_fiscal_month",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "year",
+										"value": {
+											"value": "@{concat(formatDateTime(variables('year_temp'),'yyyy/MM/'),formatDateTime(variables('start_date'),'dd'))}",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Set Filename",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Set Sink Path",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "filename",
+										"value": {
+											"value": "@concat('VBAK_',formatDateTime(variables('start_date'),'yyyyMMdd'),'.csv')",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Copy SAP Table VBAK",
+									"type": "Copy",
+									"dependsOn": [
+										{
+											"activity": "Set Filename",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "SapTableSource",
+											"rfcTableOptions": {
+												"value": "@{concat('ERDAT EQ ',variables('single_quote'), formatDateTime(variables('start_date'),'yyyyMMdd'), variables('single_quote'))}",
+												"type": "Expression"
+											},
+											"customRfcReadTableFunctionModule": "/SAPDS/RFC_READ_TABLE2",
+											"partitionOption": "None",
+											"sapDataColumnDelimiter": "^"
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobStorageWriteSettings"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".csv"
+											}
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "DS_SAP_Table_VBAK",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DelimitedText_VBAK",
+											"type": "DatasetReference",
+											"parameters": {
+												"filename": "@variables('filename')",
+												"sink_path": "SAP/VBAK/@{variables('year')}",
+												"blob": {
+													"value": "@pipeline().globalParameters.blob",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								},
+								{
+									"name": "Incremental Start Date using temp",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Copy SAP Table VBAK",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date_temp",
+										"value": {
+											"value": "@addDays(variables('start_date'),1)",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Assign Incremental Start",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Incremental Start Date using temp",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date",
+										"value": {
+											"value": "@variables('start_date_temp')",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"timeout": "0.12:00:00"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"start_date": {
+						"type": "String"
+					},
+					"end_date": {
+						"type": "String"
+					},
+					"single_quote": {
+						"type": "String",
+						"defaultValue": "'"
+					},
+					"year": {
+						"type": "String"
+					},
+					"filename": {
+						"type": "String"
+					},
+					"start_date_temp": {
+						"type": "String"
+					},
+					"end_date_temp": {
+						"type": "String"
+					},
+					"start_date_temp1": {
+						"type": "String"
+					},
+					"end_date_temp1": {
+						"type": "String"
+					},
+					"set_fiscalyear_month": {
+						"type": "String"
+					},
+					"year_temp": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "Transactional"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_SAP_Table_VBAK')]",
+				"[concat(variables('factoryId'), '/datasets/DelimitedText_VBAK')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/VBAP')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Condition_start_date_empty",
+						"type": "IfCondition",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@empty(variables('start_date'))",
+								"type": "Expression"
+							},
+							"ifFalseActivities": [
+								{
+									"name": "Set_variable_start_date_to_format_using_temp",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date_temp1",
+										"value": {
+											"value": "@formatDateTime(variables('start_date'),'yyyy-MM-dd')",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Assign_temp_to_Start_Date",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Set_variable_start_date_to_format_using_temp",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date",
+										"value": {
+											"value": "@variables('start_date_temp1')",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"ifTrueActivities": [
+								{
+									"name": "Set_variable_to_previous_start_date",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date",
+										"value": {
+											"value": "@formatDateTime(addDays(convertTimeZone(utcNow(),'UTC','India Standard Time'),-1),'yyyy-MM-dd')",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "Condition_end_date_empty",
+						"type": "IfCondition",
+						"dependsOn": [
+							{
+								"activity": "Condition_start_date_empty",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@empty(variables('end_date'))",
+								"type": "Expression"
+							},
+							"ifFalseActivities": [
+								{
+									"name": "Set_end_date_variable_to_format_using_temp",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "end_date_temp1",
+										"value": {
+											"value": "@formatDateTime(variables('end_date'),'yyyy-MM-dd')",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Assign_temp_to_end_date",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Set_end_date_variable_to_format_using_temp",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "end_date",
+										"value": {
+											"value": "@variables('end_date_temp1')",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"ifTrueActivities": [
+								{
+									"name": "Set_variable-end_date_to_previous_end_date",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "end_date",
+										"value": {
+											"value": "@formatDateTime(addDays(convertTimeZone(utcNow(),'UTC','India Standard Time'),-1),'yyyy-MM-dd')",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "Increament_end_date_using_temp_end_date",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "Condition_end_date_empty",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "end_date_temp",
+							"value": {
+								"value": "@addDays(variables('end_date'),1)",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Assign_increment_end_date_to_end_date",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "Increament_end_date_using_temp_end_date",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "end_date",
+							"value": {
+								"value": "@variables('end_date_temp')",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Until1",
+						"type": "Until",
+						"dependsOn": [
+							{
+								"activity": "Assign_increment_end_date_to_end_date",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@greaterOrEquals(variables('start_date'),variables('end_date'))",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Condition_for_fiscal_month",
+									"type": "IfCondition",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"expression": {
+											"value": "@less(int(formatDateTime(variables('start_date'),'MM')),4)",
+											"type": "Expression"
+										},
+										"ifFalseActivities": [
+											{
+												"name": "Subtract three from Month",
+												"type": "SetVariable",
+												"dependsOn": [],
+												"policy": {
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "set_fiscalyear_month",
+													"value": {
+														"value": "@{formatDateTime(concat(string(int(formatDateTime(variables('start_date'),'yyyy'))),'-',string(add(int(formatDateTime(variables('start_date'),'MM')),-3))))}",
+														"type": "Expression"
+													}
+												}
+											},
+											{
+												"name": "Set Actuall Fiscal Year and Month",
+												"type": "SetVariable",
+												"dependsOn": [
+													{
+														"activity": "Subtract three from Month",
+														"dependencyConditions": [
+															"Succeeded"
+														]
+													}
+												],
+												"policy": {
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "year_temp",
+													"value": {
+														"value": "@variables('set_fiscalyear_month')",
+														"type": "Expression"
+													}
+												}
+											}
+										],
+										"ifTrueActivities": [
+											{
+												"name": "Subtracted year by 1 and add by  9 months",
+												"type": "SetVariable",
+												"dependsOn": [],
+												"policy": {
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "set_fiscalyear_month",
+													"value": {
+														"value": "@{formatDateTime(concat(string(add(int(formatDateTime(variables('start_date'),'yyyy')),-1)),'-',string(add(int(formatDateTime(variables('start_date'),'MM')),9))))}",
+														"type": "Expression"
+													}
+												}
+											},
+											{
+												"name": "Set_actual_year_and_month",
+												"type": "SetVariable",
+												"dependsOn": [
+													{
+														"activity": "Subtracted year by 1 and add by  9 months",
+														"dependencyConditions": [
+															"Succeeded"
+														]
+													}
+												],
+												"policy": {
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "year_temp",
+													"value": {
+														"value": "@variables('set_fiscalyear_month')",
+														"type": "Expression"
+													}
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "Set Sink Path",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Condition_for_fiscal_month",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "year",
+										"value": {
+											"value": "@{concat(formatDateTime(variables('year_temp'),'yyyy/MM/'),formatDateTime(variables('start_date'),'dd'))}",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Set Filename",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Set Sink Path",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "filename",
+										"value": {
+											"value": "@concat('VBAP_',formatDateTime(variables('start_date'),'yyyyMMdd'),'.csv')",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Copy SAP Table VBAP",
+									"type": "Copy",
+									"dependsOn": [
+										{
+											"activity": "Set Filename",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "SapTableSource",
+											"rfcTableOptions": {
+												"value": "@{concat('ERDAT EQ ',variables('single_quote'), formatDateTime(variables('start_date'),'yyyyMMdd'), variables('single_quote'))}",
+												"type": "Expression"
+											},
+											"customRfcReadTableFunctionModule": "/SAPDS/RFC_READ_TABLE2",
+											"partitionOption": "None",
+											"sapDataColumnDelimiter": "^"
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobStorageWriteSettings"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".csv"
+											}
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "DS_SAP_Table_VBAP",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DelimitedText_VBAP",
+											"type": "DatasetReference",
+											"parameters": {
+												"filename": "@variables('filename')",
+												"sink_path": "SAP/VBAP/@{variables('year')}",
+												"blob": {
+													"value": "@pipeline().globalParameters.blob",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								},
+								{
+									"name": "Incremental Start Date using temp",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Copy SAP Table VBAP",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date_temp",
+										"value": {
+											"value": "@addDays(variables('start_date'),1)",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Assign Incremental Start",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Incremental Start Date using temp",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date",
+										"value": {
+											"value": "@variables('start_date_temp')",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"timeout": "0.12:00:00"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"start_date": {
+						"type": "String"
+					},
+					"end_date": {
+						"type": "String"
+					},
+					"single_quote": {
+						"type": "String",
+						"defaultValue": "'"
+					},
+					"year": {
+						"type": "String"
+					},
+					"filename": {
+						"type": "String"
+					},
+					"start_date_temp": {
+						"type": "String"
+					},
+					"end_date_temp": {
+						"type": "String"
+					},
+					"start_date_temp1": {
+						"type": "String"
+					},
+					"end_date_temp1": {
+						"type": "String"
+					},
+					"set_fiscalyear_month": {
+						"type": "String"
+					},
+					"year_temp": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "Transactional"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_SAP_Table_VBAP')]",
+				"[concat(variables('factoryId'), '/datasets/DelimitedText_VBAP')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/VBFA')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Condition_start_date_empty",
+						"type": "IfCondition",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@empty(variables('start_date'))",
+								"type": "Expression"
+							},
+							"ifFalseActivities": [
+								{
+									"name": "Set_variable_start_date_to_format_using_temp",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date_temp1",
+										"value": {
+											"value": "@formatDateTime(variables('start_date'),'yyyy-MM-dd')",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Assign_temp_to_Start_Date",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Set_variable_start_date_to_format_using_temp",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date",
+										"value": {
+											"value": "@variables('start_date_temp1')",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"ifTrueActivities": [
+								{
+									"name": "Set_variable_to_previous_start_date",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date",
+										"value": {
+											"value": "@formatDateTime(addDays(convertTimeZone(utcNow(),'UTC','India Standard Time'),-1),'yyyy-MM-dd')",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "Condition_end_date_empty",
+						"type": "IfCondition",
+						"dependsOn": [
+							{
+								"activity": "Condition_start_date_empty",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@empty(variables('end_date'))",
+								"type": "Expression"
+							},
+							"ifFalseActivities": [
+								{
+									"name": "Set_end_date_variable_to_format_using_temp",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "end_date_temp1",
+										"value": {
+											"value": "@formatDateTime(variables('end_date'),'yyyy-MM-dd')",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Assign_temp_to_end_date",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Set_end_date_variable_to_format_using_temp",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "end_date",
+										"value": {
+											"value": "@variables('end_date_temp1')",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"ifTrueActivities": [
+								{
+									"name": "Set_variable-end_date_to_previous_end_date",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "end_date",
+										"value": {
+											"value": "@formatDateTime(addDays(convertTimeZone(utcNow(),'UTC','India Standard Time'),-1),'yyyy-MM-dd')",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "Increament_end_date_using_temp_end_date",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "Condition_end_date_empty",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "end_date_temp",
+							"value": {
+								"value": "@addDays(variables('end_date'),1)",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Assign_increment_end_date_to_end_date",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "Increament_end_date_using_temp_end_date",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "end_date",
+							"value": {
+								"value": "@variables('end_date_temp')",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Until1",
+						"type": "Until",
+						"dependsOn": [
+							{
+								"activity": "Assign_increment_end_date_to_end_date",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@greaterOrEquals(variables('start_date'),variables('end_date'))",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Condition_for_fiscal_month",
+									"type": "IfCondition",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"expression": {
+											"value": "@less(int(formatDateTime(variables('start_date'),'MM')),4)",
+											"type": "Expression"
+										},
+										"ifFalseActivities": [
+											{
+												"name": "Subtract three from Month",
+												"type": "SetVariable",
+												"dependsOn": [],
+												"policy": {
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "set_fiscalyear_month",
+													"value": {
+														"value": "@{formatDateTime(concat(string(int(formatDateTime(variables('start_date'),'yyyy'))),'-',string(add(int(formatDateTime(variables('start_date'),'MM')),-3))))}",
+														"type": "Expression"
+													}
+												}
+											},
+											{
+												"name": "Set Actuall Fiscal Year and Month",
+												"type": "SetVariable",
+												"dependsOn": [
+													{
+														"activity": "Subtract three from Month",
+														"dependencyConditions": [
+															"Succeeded"
+														]
+													}
+												],
+												"policy": {
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "year_temp",
+													"value": {
+														"value": "@variables('set_fiscalyear_month')",
+														"type": "Expression"
+													}
+												}
+											}
+										],
+										"ifTrueActivities": [
+											{
+												"name": "Subtracted year by 1 and add by  9 months",
+												"type": "SetVariable",
+												"dependsOn": [],
+												"policy": {
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "set_fiscalyear_month",
+													"value": {
+														"value": "@{formatDateTime(concat(string(add(int(formatDateTime(variables('start_date'),'yyyy')),-1)),'-',string(add(int(formatDateTime(variables('start_date'),'MM')),9))))}",
+														"type": "Expression"
+													}
+												}
+											},
+											{
+												"name": "Set_actual_year_and_month",
+												"type": "SetVariable",
+												"dependsOn": [
+													{
+														"activity": "Subtracted year by 1 and add by  9 months",
+														"dependencyConditions": [
+															"Succeeded"
+														]
+													}
+												],
+												"policy": {
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "year_temp",
+													"value": {
+														"value": "@variables('set_fiscalyear_month')",
+														"type": "Expression"
+													}
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "Set Sink Path",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Condition_for_fiscal_month",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "year",
+										"value": {
+											"value": "@{concat(formatDateTime(variables('year_temp'),'yyyy/MM/'),formatDateTime(variables('start_date'),'dd'))}",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Set Filename",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Set Sink Path",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "filename",
+										"value": {
+											"value": "@concat('VBFA_',formatDateTime(variables('start_date'),'yyyyMMdd'),'.csv')",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Copy SAP Table VBFA",
+									"type": "Copy",
+									"dependsOn": [
+										{
+											"activity": "Set Filename",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "SapTableSource",
+											"rfcTableOptions": {
+												"value": "@{concat('ERDAT EQ ',variables('single_quote'), formatDateTime(variables('start_date'),'yyyyMMdd'), variables('single_quote'))}",
+												"type": "Expression"
+											},
+											"customRfcReadTableFunctionModule": "/SAPDS/RFC_READ_TABLE2",
+											"partitionOption": "None",
+											"sapDataColumnDelimiter": "^"
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobStorageWriteSettings"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".csv"
+											}
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "DS_SAP_Table_VBFA",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DelimitedText_VBFA",
+											"type": "DatasetReference",
+											"parameters": {
+												"filename": "@variables('filename')",
+												"sink_path": "SAP/VBFA/@{variables('year')}",
+												"blob": {
+													"value": "@pipeline().globalParameters.blob",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								},
+								{
+									"name": "Incremental Start Date using temp",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Copy SAP Table VBFA",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date_temp",
+										"value": {
+											"value": "@addDays(variables('start_date'),1)",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Assign Incremental Start",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Incremental Start Date using temp",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date",
+										"value": {
+											"value": "@variables('start_date_temp')",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"timeout": "0.12:00:00"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"start_date": {
+						"type": "String"
+					},
+					"end_date": {
+						"type": "String"
+					},
+					"single_quote": {
+						"type": "String",
+						"defaultValue": "'"
+					},
+					"year": {
+						"type": "String"
+					},
+					"filename": {
+						"type": "String"
+					},
+					"start_date_temp": {
+						"type": "String"
+					},
+					"end_date_temp": {
+						"type": "String"
+					},
+					"start_date_temp1": {
+						"type": "String"
+					},
+					"end_date_temp1": {
+						"type": "String"
+					},
+					"set_fiscalyear_month": {
+						"type": "String"
+					},
+					"year_temp": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "Transactional"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_SAP_Table_VBFA')]",
+				"[concat(variables('factoryId'), '/datasets/DelimitedText_VBFA')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/VBRK')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Condition_start_date_empty",
+						"type": "IfCondition",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@empty(variables('start_date'))",
+								"type": "Expression"
+							},
+							"ifFalseActivities": [
+								{
+									"name": "Set_variable_start_date_to_format_using_temp",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date_temp1",
+										"value": {
+											"value": "@formatDateTime(variables('start_date'),'yyyy-MM-dd')",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Assign_temp_to_Start_Date",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Set_variable_start_date_to_format_using_temp",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date",
+										"value": {
+											"value": "@variables('start_date_temp1')",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"ifTrueActivities": [
+								{
+									"name": "Set_variable_to_previous_start_date",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date",
+										"value": {
+											"value": "@formatDateTime(addDays(convertTimeZone(utcNow(),'UTC','India Standard Time'),-1),'yyyy-MM-dd')",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "Condition_end_date_empty",
+						"type": "IfCondition",
+						"dependsOn": [
+							{
+								"activity": "Condition_start_date_empty",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@empty(variables('end_date'))",
+								"type": "Expression"
+							},
+							"ifFalseActivities": [
+								{
+									"name": "Set_end_date_variable_to_format_using_temp",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "end_date_temp1",
+										"value": {
+											"value": "@formatDateTime(variables('end_date'),'yyyy-MM-dd')",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Assign_temp_to_end_date",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Set_end_date_variable_to_format_using_temp",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "end_date",
+										"value": {
+											"value": "@variables('end_date_temp1')",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"ifTrueActivities": [
+								{
+									"name": "Set_variable-end_date_to_previous_end_date",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "end_date",
+										"value": {
+											"value": "@formatDateTime(addDays(convertTimeZone(utcNow(),'UTC','India Standard Time'),-1),'yyyy-MM-dd')",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "Increament_end_date_using_temp_end_date",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "Condition_end_date_empty",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "end_date_temp",
+							"value": {
+								"value": "@addDays(variables('end_date'),1)",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Assign_increment_end_date_to_end_date",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "Increament_end_date_using_temp_end_date",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "end_date",
+							"value": {
+								"value": "@variables('end_date_temp')",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Until1",
+						"type": "Until",
+						"dependsOn": [
+							{
+								"activity": "Assign_increment_end_date_to_end_date",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@greaterOrEquals(variables('start_date'),variables('end_date'))",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Condition_for_fiscal_month",
+									"type": "IfCondition",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"expression": {
+											"value": "@less(int(formatDateTime(variables('start_date'),'MM')),4)",
+											"type": "Expression"
+										},
+										"ifFalseActivities": [
+											{
+												"name": "Subtract three from Month",
+												"type": "SetVariable",
+												"dependsOn": [],
+												"policy": {
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "set_fiscalyear_month",
+													"value": {
+														"value": "@{formatDateTime(concat(string(int(formatDateTime(variables('start_date'),'yyyy'))),'-',string(add(int(formatDateTime(variables('start_date'),'MM')),-3))))}",
+														"type": "Expression"
+													}
+												}
+											},
+											{
+												"name": "Set Actuall Fiscal Year and Month",
+												"type": "SetVariable",
+												"dependsOn": [
+													{
+														"activity": "Subtract three from Month",
+														"dependencyConditions": [
+															"Succeeded"
+														]
+													}
+												],
+												"policy": {
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "year_temp",
+													"value": {
+														"value": "@variables('set_fiscalyear_month')",
+														"type": "Expression"
+													}
+												}
+											}
+										],
+										"ifTrueActivities": [
+											{
+												"name": "Subtracted year by 1 and add by  9 months",
+												"type": "SetVariable",
+												"dependsOn": [],
+												"policy": {
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "set_fiscalyear_month",
+													"value": {
+														"value": "@{formatDateTime(concat(string(add(int(formatDateTime(variables('start_date'),'yyyy')),-1)),'-',string(add(int(formatDateTime(variables('start_date'),'MM')),9))))}",
+														"type": "Expression"
+													}
+												}
+											},
+											{
+												"name": "Set_actual_year_and_month",
+												"type": "SetVariable",
+												"dependsOn": [
+													{
+														"activity": "Subtracted year by 1 and add by  9 months",
+														"dependencyConditions": [
+															"Succeeded"
+														]
+													}
+												],
+												"policy": {
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "year_temp",
+													"value": {
+														"value": "@variables('set_fiscalyear_month')",
+														"type": "Expression"
+													}
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "Set Sink Path",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Condition_for_fiscal_month",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "year",
+										"value": {
+											"value": "@{concat(formatDateTime(variables('year_temp'),'yyyy/MM/'),formatDateTime(variables('start_date'),'dd'))}",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Set Filename",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Set Sink Path",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "filename",
+										"value": {
+											"value": "@concat('VBRK_',formatDateTime(variables('start_date'),'yyyyMMdd'),'.csv')",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Copy SAP Table VBRK",
+									"type": "Copy",
+									"dependsOn": [
+										{
+											"activity": "Set Filename",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "SapTableSource",
+											"rfcTableOptions": {
+												"value": "@{concat('ERDAT EQ ',variables('single_quote'), formatDateTime(variables('start_date'),'yyyyMMdd'), variables('single_quote'))}",
+												"type": "Expression"
+											},
+											"customRfcReadTableFunctionModule": "/SAPDS/RFC_READ_TABLE2",
+											"partitionOption": "None",
+											"sapDataColumnDelimiter": "^"
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobStorageWriteSettings"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".csv"
+											}
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "DS_SAP_Table_VBRK",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DelimitedText_VBRK",
+											"type": "DatasetReference",
+											"parameters": {
+												"filename": "@variables('filename')",
+												"sink_path": "SAP/VBRK/@{variables('year')}",
+												"blob": {
+													"value": "@pipeline().globalParameters.blob",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								},
+								{
+									"name": "Incremental Start Date using temp",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Copy SAP Table VBRK",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date_temp",
+										"value": {
+											"value": "@addDays(variables('start_date'),1)",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Assign Incremental Start",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Incremental Start Date using temp",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date",
+										"value": {
+											"value": "@variables('start_date_temp')",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"timeout": "0.12:00:00"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"start_date": {
+						"type": "String"
+					},
+					"end_date": {
+						"type": "String"
+					},
+					"single_quote": {
+						"type": "String",
+						"defaultValue": "'"
+					},
+					"year": {
+						"type": "String"
+					},
+					"filename": {
+						"type": "String"
+					},
+					"start_date_temp": {
+						"type": "String"
+					},
+					"end_date_temp": {
+						"type": "String"
+					},
+					"start_date_temp1": {
+						"type": "String"
+					},
+					"end_date_temp1": {
+						"type": "String"
+					},
+					"set_fiscalyear_month": {
+						"type": "String"
+					},
+					"year_temp": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "Transactional"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_SAP_Table_VBRK')]",
+				"[concat(variables('factoryId'), '/datasets/DelimitedText_VBRK')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/VBRP')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Condition_start_date_empty",
+						"type": "IfCondition",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@empty(variables('start_date'))",
+								"type": "Expression"
+							},
+							"ifFalseActivities": [
+								{
+									"name": "Set_variable_start_date_to_format_using_temp",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date_temp1",
+										"value": {
+											"value": "@formatDateTime(variables('start_date'),'yyyy-MM-dd')",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Assign_temp_to_Start_Date",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Set_variable_start_date_to_format_using_temp",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date",
+										"value": {
+											"value": "@variables('start_date_temp1')",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"ifTrueActivities": [
+								{
+									"name": "Set_variable_to_previous_start_date",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date",
+										"value": {
+											"value": "@formatDateTime(addDays(convertTimeZone(utcNow(),'UTC','India Standard Time'),-1),'yyyy-MM-dd')",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "Condition_end_date_empty",
+						"type": "IfCondition",
+						"dependsOn": [
+							{
+								"activity": "Condition_start_date_empty",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@empty(variables('end_date'))",
+								"type": "Expression"
+							},
+							"ifFalseActivities": [
+								{
+									"name": "Set_end_date_variable_to_format_using_temp",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "end_date_temp1",
+										"value": {
+											"value": "@formatDateTime(variables('end_date'),'yyyy-MM-dd')",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Assign_temp_to_end_date",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Set_end_date_variable_to_format_using_temp",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "end_date",
+										"value": {
+											"value": "@variables('end_date_temp1')",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"ifTrueActivities": [
+								{
+									"name": "Set_variable-end_date_to_previous_end_date",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "end_date",
+										"value": {
+											"value": "@formatDateTime(addDays(convertTimeZone(utcNow(),'UTC','India Standard Time'),-1),'yyyy-MM-dd')",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "Increament_end_date_using_temp_end_date",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "Condition_end_date_empty",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "end_date_temp",
+							"value": {
+								"value": "@addDays(variables('end_date'),1)",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Assign_increment_end_date_to_end_date",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "Increament_end_date_using_temp_end_date",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "end_date",
+							"value": {
+								"value": "@variables('end_date_temp')",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Until1",
+						"type": "Until",
+						"dependsOn": [
+							{
+								"activity": "Assign_increment_end_date_to_end_date",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@greaterOrEquals(variables('start_date'),variables('end_date'))",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Condition_for_fiscal_month",
+									"type": "IfCondition",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"expression": {
+											"value": "@less(int(formatDateTime(variables('start_date'),'MM')),4)",
+											"type": "Expression"
+										},
+										"ifFalseActivities": [
+											{
+												"name": "Subtract three from Month",
+												"type": "SetVariable",
+												"dependsOn": [],
+												"policy": {
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "set_fiscalyear_month",
+													"value": {
+														"value": "@{formatDateTime(concat(string(int(formatDateTime(variables('start_date'),'yyyy'))),'-',string(add(int(formatDateTime(variables('start_date'),'MM')),-3))))}",
+														"type": "Expression"
+													}
+												}
+											},
+											{
+												"name": "Set Actuall Fiscal Year and Month",
+												"type": "SetVariable",
+												"dependsOn": [
+													{
+														"activity": "Subtract three from Month",
+														"dependencyConditions": [
+															"Succeeded"
+														]
+													}
+												],
+												"policy": {
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "year_temp",
+													"value": {
+														"value": "@variables('set_fiscalyear_month')",
+														"type": "Expression"
+													}
+												}
+											}
+										],
+										"ifTrueActivities": [
+											{
+												"name": "Subtracted year by 1 and add by  9 months",
+												"type": "SetVariable",
+												"dependsOn": [],
+												"policy": {
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "set_fiscalyear_month",
+													"value": {
+														"value": "@{formatDateTime(concat(string(add(int(formatDateTime(variables('start_date'),'yyyy')),-1)),'-',string(add(int(formatDateTime(variables('start_date'),'MM')),9))))}",
+														"type": "Expression"
+													}
+												}
+											},
+											{
+												"name": "Set_actual_year_and_month",
+												"type": "SetVariable",
+												"dependsOn": [
+													{
+														"activity": "Subtracted year by 1 and add by  9 months",
+														"dependencyConditions": [
+															"Succeeded"
+														]
+													}
+												],
+												"policy": {
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "year_temp",
+													"value": {
+														"value": "@variables('set_fiscalyear_month')",
+														"type": "Expression"
+													}
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "Set Sink Path",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Condition_for_fiscal_month",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "year",
+										"value": {
+											"value": "@{concat(formatDateTime(variables('year_temp'),'yyyy/MM/'),formatDateTime(variables('start_date'),'dd'))}",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Set Filename",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Set Sink Path",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "filename",
+										"value": {
+											"value": "@concat('VBRP_',formatDateTime(variables('start_date'),'yyyyMMdd'),'.csv')",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Copy SAP Table VBRP",
+									"type": "Copy",
+									"dependsOn": [
+										{
+											"activity": "Set Filename",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "SapTableSource",
+											"rfcTableOptions": {
+												"value": "@{concat('ERDAT EQ ',variables('single_quote'), formatDateTime(variables('start_date'),'yyyyMMdd'), variables('single_quote'))}",
+												"type": "Expression"
+											},
+											"customRfcReadTableFunctionModule": "/SAPDS/RFC_READ_TABLE2",
+											"partitionOption": "None",
+											"sapDataColumnDelimiter": "^"
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobStorageWriteSettings"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".csv"
+											}
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "DS_SAP_Table_VBRP",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DelimitedText_VBRP",
+											"type": "DatasetReference",
+											"parameters": {
+												"filename": "@variables('filename')",
+												"sink_path": "SAP/VBRP/@{variables('year')}",
+												"blob": {
+													"value": "@pipeline().globalParameters.blob",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								},
+								{
+									"name": "Incremental Start Date using temp",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Copy SAP Table VBRP",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date_temp",
+										"value": {
+											"value": "@addDays(variables('start_date'),1)",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Assign Incremental Start",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Incremental Start Date using temp",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date",
+										"value": {
+											"value": "@variables('start_date_temp')",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"timeout": "0.12:00:00"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"start_date": {
+						"type": "String"
+					},
+					"end_date": {
+						"type": "String"
+					},
+					"single_quote": {
+						"type": "String",
+						"defaultValue": "'"
+					},
+					"year": {
+						"type": "String"
+					},
+					"filename": {
+						"type": "String"
+					},
+					"start_date_temp": {
+						"type": "String"
+					},
+					"end_date_temp": {
+						"type": "String"
+					},
+					"start_date_temp1": {
+						"type": "String"
+					},
+					"end_date_temp1": {
+						"type": "String"
+					},
+					"set_fiscalyear_month": {
+						"type": "String"
+					},
+					"year_temp": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "Transactional"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_SAP_Table_VBRP')]",
+				"[concat(variables('factoryId'), '/datasets/DelimitedText_VBRP')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/VBUK')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "VBUK",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapTableSource",
+								"rfcTableOptions": "",
+								"customRfcReadTableFunctionModule": "/SAPDS/RFC_READ_TABLE2",
+								"partitionOption": "None",
+								"sapDataColumnDelimiter": {
+									"value": "^",
+									"type": "Expression"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_SAP_Table_VBUK",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DelimitedText_VBUK",
+								"type": "DatasetReference",
+								"parameters": {
+									"blob": {
+										"value": "@pipeline().globalParameters.blob",
+										"type": "Expression"
+									}
+								}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "Master"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_SAP_Table_VBUK')]",
+				"[concat(variables('factoryId'), '/datasets/DelimitedText_VBUK')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/VBUK_AEDAT')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Condition_start_date_empty",
+						"type": "IfCondition",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@empty(variables('start_date'))",
+								"type": "Expression"
+							},
+							"ifFalseActivities": [
+								{
+									"name": "Set_variable_start_date_to_format_using_temp",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date_temp1",
+										"value": {
+											"value": "@formatDateTime(variables('start_date'),'yyyy-MM-dd')",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Assign_temp_to_Start_Date",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Set_variable_start_date_to_format_using_temp",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date",
+										"value": {
+											"value": "@variables('start_date_temp1')",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"ifTrueActivities": [
+								{
+									"name": "Set_variable_to_previous_start_date",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date",
+										"value": {
+											"value": "@formatDateTime(addDays(convertTimeZone(utcNow(),'UTC','India Standard Time'),-1),'yyyy-MM-dd')",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "Condition_end_date_empty",
+						"type": "IfCondition",
+						"dependsOn": [
+							{
+								"activity": "Condition_start_date_empty",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@empty(variables('end_date'))",
+								"type": "Expression"
+							},
+							"ifFalseActivities": [
+								{
+									"name": "Set_end_date_variable_to_format_using_temp",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "end_date_temp1",
+										"value": {
+											"value": "@formatDateTime(variables('end_date'),'yyyy-MM-dd')",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Assign_temp_to_end_date",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Set_end_date_variable_to_format_using_temp",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "end_date",
+										"value": {
+											"value": "@variables('end_date_temp1')",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"ifTrueActivities": [
+								{
+									"name": "Set_variable-end_date_to_previous_end_date",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "end_date",
+										"value": {
+											"value": "@formatDateTime(addDays(convertTimeZone(utcNow(),'UTC','India Standard Time'),-1),'yyyy-MM-dd')",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "Increament_end_date_using_temp_end_date",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "Condition_end_date_empty",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "end_date_temp",
+							"value": {
+								"value": "@addDays(variables('end_date'),1)",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Assign_increment_end_date_to_end_date",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "Increament_end_date_using_temp_end_date",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "end_date",
+							"value": {
+								"value": "@variables('end_date_temp')",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Until1",
+						"type": "Until",
+						"dependsOn": [
+							{
+								"activity": "Assign_increment_end_date_to_end_date",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@greaterOrEquals(variables('start_date'),variables('end_date'))",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Condition_for_fiscal_month",
+									"type": "IfCondition",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"expression": {
+											"value": "@less(int(formatDateTime(variables('start_date'),'MM')),4)",
+											"type": "Expression"
+										},
+										"ifFalseActivities": [
+											{
+												"name": "Subtract three from Month",
+												"type": "SetVariable",
+												"dependsOn": [],
+												"policy": {
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "set_fiscalyear_month",
+													"value": {
+														"value": "@{formatDateTime(concat(string(int(formatDateTime(variables('start_date'),'yyyy'))),'-',string(add(int(formatDateTime(variables('start_date'),'MM')),-3))))}",
+														"type": "Expression"
+													}
+												}
+											},
+											{
+												"name": "Set Actuall Fiscal Year and Month",
+												"type": "SetVariable",
+												"dependsOn": [
+													{
+														"activity": "Subtract three from Month",
+														"dependencyConditions": [
+															"Succeeded"
+														]
+													}
+												],
+												"policy": {
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "year_temp",
+													"value": {
+														"value": "@variables('set_fiscalyear_month')",
+														"type": "Expression"
+													}
+												}
+											}
+										],
+										"ifTrueActivities": [
+											{
+												"name": "Subtracted year by 1 and add by  9 months",
+												"type": "SetVariable",
+												"dependsOn": [],
+												"policy": {
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "set_fiscalyear_month",
+													"value": {
+														"value": "@{formatDateTime(concat(string(add(int(formatDateTime(variables('start_date'),'yyyy')),-1)),'-',string(add(int(formatDateTime(variables('start_date'),'MM')),9))))}",
+														"type": "Expression"
+													}
+												}
+											},
+											{
+												"name": "Set_actual_year_and_month",
+												"type": "SetVariable",
+												"dependsOn": [
+													{
+														"activity": "Subtracted year by 1 and add by  9 months",
+														"dependencyConditions": [
+															"Succeeded"
+														]
+													}
+												],
+												"policy": {
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "year_temp",
+													"value": {
+														"value": "@variables('set_fiscalyear_month')",
+														"type": "Expression"
+													}
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "Set Sink Path",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Condition_for_fiscal_month",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "year",
+										"value": {
+											"value": "@{concat(formatDateTime(variables('year_temp'),'yyyy/MM/'),formatDateTime(variables('start_date'),'dd'))}",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Set Filename",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Set Sink Path",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "filename",
+										"value": {
+											"value": "@concat('VBUK_',formatDateTime(variables('start_date'),'yyyyMMdd'),'.csv')",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Copy SAP Table VBUK_AEDAT",
+									"type": "Copy",
+									"dependsOn": [
+										{
+											"activity": "Set Filename",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "SapTableSource",
+											"rfcTableOptions": {
+												"value": "@{concat('AEDAT EQ ',variables('single_quote'), formatDateTime(variables('start_date'),'yyyyMMdd'), variables('single_quote'))}",
+												"type": "Expression"
+											},
+											"customRfcReadTableFunctionModule": "/SAPDS/RFC_READ_TABLE2",
+											"partitionOption": "None",
+											"sapDataColumnDelimiter": "^"
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobStorageWriteSettings"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".csv"
+											}
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "DS_SAP_Table_VBUK_AEDAT",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DelimitedText_VBUK_AEDAT",
+											"type": "DatasetReference",
+											"parameters": {
+												"filename": "@variables('filename')",
+												"sink_path": "SAP/VBUK_AEDAT/@{variables('year')}",
+												"blob": {
+													"value": "@pipeline().globalParameters.blob",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								},
+								{
+									"name": "Incremental Start Date using temp",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Copy SAP Table VBUK_AEDAT",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date_temp",
+										"value": {
+											"value": "@addDays(variables('start_date'),1)",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Assign Incremental Start",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Incremental Start Date using temp",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date",
+										"value": {
+											"value": "@variables('start_date_temp')",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"timeout": "0.12:00:00"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"start_date": {
+						"type": "String"
+					},
+					"end_date": {
+						"type": "String"
+					},
+					"single_quote": {
+						"type": "String",
+						"defaultValue": "'"
+					},
+					"year": {
+						"type": "String"
+					},
+					"filename": {
+						"type": "String"
+					},
+					"start_date_temp": {
+						"type": "String"
+					},
+					"end_date_temp": {
+						"type": "String"
+					},
+					"start_date_temp1": {
+						"type": "String"
+					},
+					"end_date_temp1": {
+						"type": "String"
+					},
+					"set_fiscalyear_month": {
+						"type": "String"
+					},
+					"year_temp": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "Transactional"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_SAP_Table_VBUK_AEDAT')]",
+				"[concat(variables('factoryId'), '/datasets/DelimitedText_VBUK_AEDAT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/VBUP')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "VBUP",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapTableSource",
+								"rfcTableOptions": "",
+								"customRfcReadTableFunctionModule": "/SAPDS/RFC_READ_TABLE2",
+								"partitionOption": "None",
+								"sapDataColumnDelimiter": {
+									"value": "^",
+									"type": "Expression"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_SAP_Table_VBUP",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DelimitedText_VBUP",
+								"type": "DatasetReference",
+								"parameters": {
+									"blob": {
+										"value": "@pipeline().globalParameters.blob",
+										"type": "Expression"
+									}
+								}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "Master"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_SAP_Table_VBUP')]",
+				"[concat(variables('factoryId'), '/datasets/DelimitedText_VBUP')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/VBUP_AEDAT')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Condition_start_date_empty",
+						"type": "IfCondition",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@empty(variables('start_date'))",
+								"type": "Expression"
+							},
+							"ifFalseActivities": [
+								{
+									"name": "Set_variable_start_date_to_format_using_temp",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date_temp1",
+										"value": {
+											"value": "@formatDateTime(variables('start_date'),'yyyy-MM-dd')",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Assign_temp_to_Start_Date",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Set_variable_start_date_to_format_using_temp",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date",
+										"value": {
+											"value": "@variables('start_date_temp1')",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"ifTrueActivities": [
+								{
+									"name": "Set_variable_to_previous_start_date",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date",
+										"value": {
+											"value": "@formatDateTime(addDays(convertTimeZone(utcNow(),'UTC','India Standard Time'),-1),'yyyy-MM-dd')",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "Condition_end_date_empty",
+						"type": "IfCondition",
+						"dependsOn": [
+							{
+								"activity": "Condition_start_date_empty",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@empty(variables('end_date'))",
+								"type": "Expression"
+							},
+							"ifFalseActivities": [
+								{
+									"name": "Set_end_date_variable_to_format_using_temp",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "end_date_temp1",
+										"value": {
+											"value": "@formatDateTime(variables('end_date'),'yyyy-MM-dd')",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Assign_temp_to_end_date",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Set_end_date_variable_to_format_using_temp",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "end_date",
+										"value": {
+											"value": "@variables('end_date_temp1')",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"ifTrueActivities": [
+								{
+									"name": "Set_variable-end_date_to_previous_end_date",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "end_date",
+										"value": {
+											"value": "@formatDateTime(addDays(convertTimeZone(utcNow(),'UTC','India Standard Time'),-1),'yyyy-MM-dd')",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "Increament_end_date_using_temp_end_date",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "Condition_end_date_empty",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "end_date_temp",
+							"value": {
+								"value": "@addDays(variables('end_date'),1)",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Assign_increment_end_date_to_end_date",
+						"type": "SetVariable",
+						"dependsOn": [
+							{
+								"activity": "Increament_end_date_using_temp_end_date",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "end_date",
+							"value": {
+								"value": "@variables('end_date_temp')",
+								"type": "Expression"
+							}
+						}
+					},
+					{
+						"name": "Until1",
+						"type": "Until",
+						"dependsOn": [
+							{
+								"activity": "Assign_increment_end_date_to_end_date",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@greaterOrEquals(variables('start_date'),variables('end_date'))",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Condition_for_fiscal_month",
+									"type": "IfCondition",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"expression": {
+											"value": "@less(int(formatDateTime(variables('start_date'),'MM')),4)",
+											"type": "Expression"
+										},
+										"ifFalseActivities": [
+											{
+												"name": "Subtract three from Month",
+												"type": "SetVariable",
+												"dependsOn": [],
+												"policy": {
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "set_fiscalyear_month",
+													"value": {
+														"value": "@{formatDateTime(concat(string(int(formatDateTime(variables('start_date'),'yyyy'))),'-',string(add(int(formatDateTime(variables('start_date'),'MM')),-3))))}",
+														"type": "Expression"
+													}
+												}
+											},
+											{
+												"name": "Set Actuall Fiscal Year and Month",
+												"type": "SetVariable",
+												"dependsOn": [
+													{
+														"activity": "Subtract three from Month",
+														"dependencyConditions": [
+															"Succeeded"
+														]
+													}
+												],
+												"policy": {
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "year_temp",
+													"value": {
+														"value": "@variables('set_fiscalyear_month')",
+														"type": "Expression"
+													}
+												}
+											}
+										],
+										"ifTrueActivities": [
+											{
+												"name": "Subtracted year by 1 and add by  9 months",
+												"type": "SetVariable",
+												"dependsOn": [],
+												"policy": {
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "set_fiscalyear_month",
+													"value": {
+														"value": "@{formatDateTime(concat(string(add(int(formatDateTime(variables('start_date'),'yyyy')),-1)),'-',string(add(int(formatDateTime(variables('start_date'),'MM')),9))))}",
+														"type": "Expression"
+													}
+												}
+											},
+											{
+												"name": "Set_actual_year_and_month",
+												"type": "SetVariable",
+												"dependsOn": [
+													{
+														"activity": "Subtracted year by 1 and add by  9 months",
+														"dependencyConditions": [
+															"Succeeded"
+														]
+													}
+												],
+												"policy": {
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "year_temp",
+													"value": {
+														"value": "@variables('set_fiscalyear_month')",
+														"type": "Expression"
+													}
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "Set Sink Path",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Condition_for_fiscal_month",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "year",
+										"value": {
+											"value": "@{concat(formatDateTime(variables('year_temp'),'yyyy/MM/'),formatDateTime(variables('start_date'),'dd'))}",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Set Filename",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Set Sink Path",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "filename",
+										"value": {
+											"value": "@concat('VBUP_',formatDateTime(variables('start_date'),'yyyyMMdd'),'.csv')",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Copy SAP Table VBUP_AEDAT",
+									"type": "Copy",
+									"dependsOn": [
+										{
+											"activity": "Set Filename",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "SapTableSource",
+											"rfcTableOptions": {
+												"value": "@{concat('AEDAT EQ ',variables('single_quote'), formatDateTime(variables('start_date'),'yyyyMMdd'), variables('single_quote'))}",
+												"type": "Expression"
+											},
+											"customRfcReadTableFunctionModule": "/SAPDS/RFC_READ_TABLE2",
+											"partitionOption": "None",
+											"sapDataColumnDelimiter": "^"
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobStorageWriteSettings"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".csv"
+											}
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "DS_SAP_Table_VBUP_AEDAT",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "DelimitedText_VBUP_AEDAT",
+											"type": "DatasetReference",
+											"parameters": {
+												"filename": "@variables('filename')",
+												"sink_path": "SAP/VBUP_AEDAT/@{variables('year')}",
+												"blob": {
+													"value": "@pipeline().globalParameters.blob",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								},
+								{
+									"name": "Incremental Start Date using temp",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Copy SAP Table VBUP_AEDAT",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date_temp",
+										"value": {
+											"value": "@addDays(variables('start_date'),1)",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Assign Incremental Start",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Incremental Start Date using temp",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_date",
+										"value": {
+											"value": "@variables('start_date_temp')",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"timeout": "0.12:00:00"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"start_date": {
+						"type": "String"
+					},
+					"end_date": {
+						"type": "String"
+					},
+					"single_quote": {
+						"type": "String",
+						"defaultValue": "'"
+					},
+					"year": {
+						"type": "String"
+					},
+					"filename": {
+						"type": "String"
+					},
+					"start_date_temp": {
+						"type": "String"
+					},
+					"end_date_temp": {
+						"type": "String"
+					},
+					"start_date_temp1": {
+						"type": "String"
+					},
+					"end_date_temp1": {
+						"type": "String"
+					},
+					"set_fiscalyear_month": {
+						"type": "String"
+					},
+					"year_temp": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "Transactional"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_SAP_Table_VBUP_AEDAT')]",
+				"[concat(variables('factoryId'), '/datasets/DelimitedText_VBUP_AEDAT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ZCUST_ADD_DETAIL')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "ZCUST_ADD_DETAIL",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapTableSource",
+								"rfcTableOptions": "",
+								"customRfcReadTableFunctionModule": "/SAPDS/RFC_READ_TABLE2",
+								"partitionOption": "None",
+								"sapDataColumnDelimiter": {
+									"value": "^",
+									"type": "Expression"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_SAP_Table_ZCUST_ADD_DETAIL",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DelimitedText_ZCUST_ADD_DETAIL",
+								"type": "DatasetReference",
+								"parameters": {
+									"blob": {
+										"value": "@pipeline().globalParameters.blob",
+										"type": "Expression"
+									}
+								}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "Master"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_SAP_Table_ZCUST_ADD_DETAIL')]",
+				"[concat(variables('factoryId'), '/datasets/DelimitedText_ZCUST_ADD_DETAIL')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ZMMList')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "ZMMList",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SapTableSource",
+								"rfcTableOptions": "",
+								"customRfcReadTableFunctionModule": "/SAPDS/RFC_READ_TABLE2",
+								"partitionOption": "None",
+								"sapDataColumnDelimiter": {
+									"value": "^",
+									"type": "Expression"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_SAP_Table_ZMMList",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DelimitedText_ZMMList",
+								"type": "DatasetReference",
+								"parameters": {
+									"blob": {
+										"value": "@pipeline().globalParameters.blob",
+										"type": "Expression"
+									}
+								}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "Master"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_SAP_Table_ZMMList')]",
+				"[concat(variables('factoryId'), '/datasets/DelimitedText_ZMMList')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SAP_Table_CEPC')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SAP",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SapTableResource",
+				"schema": [],
+				"typeProperties": {
+					"tableName": "CEPC"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SAP')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SAP_Table_KNA1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SAP",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SapTableResource",
+				"schema": [],
+				"typeProperties": {
+					"tableName": "KNA1"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SAP')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SAP_Table_KNVV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SAP",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SapTableResource",
+				"schema": [],
+				"typeProperties": {
+					"tableName": "KNVV"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SAP')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SAP_Table_MAKT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SAP",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SapTableResource",
+				"schema": [],
+				"typeProperties": {
+					"tableName": "MAKT"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SAP')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SAP_Table_MARA')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SAP",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SapTableResource",
+				"schema": [],
+				"typeProperties": {
+					"tableName": "MARA"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SAP')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SAP_Table_MARC')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SAP",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SapTableResource",
+				"schema": [],
+				"typeProperties": {
+					"tableName": "MARC"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SAP')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SAP_Table_T151T')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SAP",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SapTableResource",
+				"schema": [],
+				"typeProperties": {
+					"tableName": "T151T"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SAP')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SAP_Table_VBAK')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SAP",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SapTableResource",
+				"schema": [],
+				"typeProperties": {
+					"tableName": "VBAK"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SAP')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SAP_Table_VBAP')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SAP",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SapTableResource",
+				"schema": [],
+				"typeProperties": {
+					"tableName": "VBAP"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SAP')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SAP_Table_VBFA')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SAP",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SapTableResource",
+				"schema": [],
+				"typeProperties": {
+					"tableName": "VBFA"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SAP')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SAP_Table_VBRK')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SAP",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SapTableResource",
+				"schema": [],
+				"typeProperties": {
+					"tableName": "VBRK"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SAP')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SAP_Table_VBRP')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SAP",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SapTableResource",
+				"schema": [],
+				"typeProperties": {
+					"tableName": "VBRP"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SAP')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SAP_Table_VBUK')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SAP",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SapTableResource",
+				"schema": [],
+				"typeProperties": {
+					"tableName": "VBUK"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SAP')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SAP_Table_VBUK_AEDAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SAP",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SapTableResource",
+				"schema": [],
+				"typeProperties": {
+					"tableName": "VBUK"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SAP')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SAP_Table_VBUP')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SAP",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SapTableResource",
+				"schema": [],
+				"typeProperties": {
+					"tableName": "VBUP"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SAP')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SAP_Table_VBUP_AEDAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SAP",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SapTableResource",
+				"schema": [],
+				"typeProperties": {
+					"tableName": "VBUP"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SAP')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SAP_Table_ZCUST_ADD_DETAIL')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SAP",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SapTableResource",
+				"schema": [],
+				"typeProperties": {
+					"tableName": "ZCUST_ADD_DETAIL"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SAP')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SAP_Table_ZMMList')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SAP",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SapTableResource",
+				"schema": [],
+				"typeProperties": {
+					"tableName": "ZMMLIST"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SAP')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText_CEPC')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_Blob",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"blob": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "SAP/CEPC",
+						"container": {
+							"value": "@dataset().blob",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": {
+						"value": "^",
+						"type": "Expression"
+					},
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": ""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_Blob')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText_KNA1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_Blob",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"blob": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "SAP/KNA1",
+						"container": {
+							"value": "@dataset().blob",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": {
+						"value": "^",
+						"type": "Expression"
+					},
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": ""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_Blob')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText_KNVV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_Blob",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"blob": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "SAP/KNVV",
+						"container": {
+							"value": "@dataset().blob",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": {
+						"value": "^",
+						"type": "Expression"
+					},
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": ""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_Blob')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText_MAKT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_Blob",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"blob": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "SAP/MAKT",
+						"container": {
+							"value": "@dataset().blob",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": {
+						"value": "^",
+						"type": "Expression"
+					},
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": ""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_Blob')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText_MARA')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_Blob",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"blob": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "SAP/MARA",
+						"container": {
+							"value": "@dataset().blob",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": {
+						"value": "^",
+						"type": "Expression"
+					},
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": ""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_Blob')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText_MARC')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_Blob",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"blob": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "SAP/MARC",
+						"container": {
+							"value": "@dataset().blob",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": {
+						"value": "^",
+						"type": "Expression"
+					},
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": ""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_Blob')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText_T151T')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_Blob",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"blob": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "SAP/T151T",
+						"container": {
+							"value": "@dataset().blob",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": {
+						"value": "^",
+						"type": "Expression"
+					},
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": ""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_Blob')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText_VBAK')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_Blob",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"filename": {
+						"type": "string"
+					},
+					"sink_path": {
+						"type": "string"
+					},
+					"blob": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": {
+							"value": "@dataset().filename",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@dataset().sink_path",
+							"type": "Expression"
+						},
+						"container": {
+							"value": "@dataset().blob",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": {
+						"value": "^",
+						"type": "Expression"
+					},
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": ""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_Blob')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText_VBAP')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_Blob",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"filename": {
+						"type": "string"
+					},
+					"sink_path": {
+						"type": "string"
+					},
+					"blob": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": {
+							"value": "@dataset().filename",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@dataset().sink_path",
+							"type": "Expression"
+						},
+						"container": {
+							"value": "@dataset().blob",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": {
+						"value": "^",
+						"type": "Expression"
+					},
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": ""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_Blob')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText_VBFA')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_Blob",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"filename": {
+						"type": "string"
+					},
+					"sink_path": {
+						"type": "string"
+					},
+					"blob": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": {
+							"value": "@dataset().filename",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@dataset().sink_path",
+							"type": "Expression"
+						},
+						"container": {
+							"value": "@dataset().blob",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": {
+						"value": "^",
+						"type": "Expression"
+					},
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": ""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_Blob')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText_VBRK')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_Blob",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"filename": {
+						"type": "string"
+					},
+					"sink_path": {
+						"type": "string"
+					},
+					"blob": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": {
+							"value": "@dataset().filename",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@dataset().sink_path",
+							"type": "Expression"
+						},
+						"container": {
+							"value": "@dataset().blob",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": {
+						"value": "^",
+						"type": "Expression"
+					},
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": ""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_Blob')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText_VBRP')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_Blob",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"filename": {
+						"type": "string"
+					},
+					"sink_path": {
+						"type": "string"
+					},
+					"blob": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": {
+							"value": "@dataset().filename",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@dataset().sink_path",
+							"type": "Expression"
+						},
+						"container": {
+							"value": "@dataset().blob",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": {
+						"value": "^",
+						"type": "Expression"
+					},
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": ""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_Blob')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText_VBUK')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_Blob",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"blob": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "SAP/VBUK",
+						"container": {
+							"value": "@dataset().blob",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": {
+						"value": "^",
+						"type": "Expression"
+					},
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": ""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_Blob')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText_VBUK_AEDAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_Blob",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"filename": {
+						"type": "string"
+					},
+					"sink_path": {
+						"type": "string"
+					},
+					"blob": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": {
+							"value": "@dataset().filename",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@dataset().sink_path",
+							"type": "Expression"
+						},
+						"container": {
+							"value": "@dataset().blob",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": {
+						"value": "^",
+						"type": "Expression"
+					},
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": ""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_Blob')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText_VBUP')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_Blob",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"blob": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "SAP/VBUP",
+						"container": {
+							"value": "@dataset().blob",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": {
+						"value": "^",
+						"type": "Expression"
+					},
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": ""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_Blob')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText_VBUP_AEDAT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_Blob",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"filename": {
+						"type": "string"
+					},
+					"sink_path": {
+						"type": "string"
+					},
+					"blob": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": {
+							"value": "@dataset().filename",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@dataset().sink_path",
+							"type": "Expression"
+						},
+						"container": {
+							"value": "@dataset().blob",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": {
+						"value": "^",
+						"type": "Expression"
+					},
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": ""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_Blob')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText_ZCUST_ADD_DETAIL')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_Blob",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"blob": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "SAP/ZCUST_ADD_DETAIL",
+						"container": {
+							"value": "@dataset().blob",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": {
+						"value": "^",
+						"type": "Expression"
+					},
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": ""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_Blob')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText_ZMMList')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_Blob",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"blob": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "SAP/ZMMLIST",
+						"container": {
+							"value": "@dataset().blob",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": {
+						"value": "^",
+						"type": "Expression"
+					},
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": ""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_Blob')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LS')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SapTable",
+				"typeProperties": {
+					"clientId": "[parameters('LS_properties_typeProperties_clientId')]",
+					"language": "EN",
+					"sncMode": false,
+					"userName": "[parameters('LS_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('LS_password')]"
+					},
+					"server": "[parameters('LS_properties_typeProperties_server')]",
+					"systemNumber": "[parameters('LS_properties_typeProperties_systemNumber')]"
+				},
+				"connectVia": {
+					"referenceName": "Anmol-SelfHosted-integrationRuntime1",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/Anmol-SelfHosted-integrationRuntime1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_Blob')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('LS_Blob_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_Blob_Dev')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('LS_Blob_Dev_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_SAP')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SapTable",
+				"typeProperties": {
+					"clientId": "[parameters('LS_SAP_properties_typeProperties_clientId')]",
+					"language": "EN",
+					"sncMode": false,
+					"userName": "[parameters('LS_SAP_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('LS_SAP_password')]"
+					},
+					"server": "[parameters('LS_SAP_properties_typeProperties_server')]",
+					"systemNumber": "[parameters('LS_SAP_properties_typeProperties_systemNumber')]"
+				},
+				"connectVia": {
+					"referenceName": "Anmol-SelfHosted-integrationRuntime1",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/Anmol-SelfHosted-integrationRuntime1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Trigger_12_30_AM')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "Run_Master_Transactional",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Day",
+						"interval": 1,
+						"startTime": "2024-02-05T08:25:00",
+						"timeZone": "India Standard Time",
+						"schedule": {
+							"minutes": [
+								30
+							],
+							"hours": [
+								0
+							]
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/Run_Master_Transactional')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Anmol-SelfHosted-integrationRuntime1')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "SelfHosted",
+				"description": "Anmol-SelfHosted-integrationRuntime1",
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		}
+	]
+}

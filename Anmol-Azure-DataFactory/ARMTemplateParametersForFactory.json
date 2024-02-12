@@ -1,0 +1,45 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "Anmol-Azure-DataFactory"
+		},
+		"LS_password": {
+			"value": ""
+		},
+		"LS_Blob_connectionString": {
+			"value": ""
+		},
+		"LS_Blob_Dev_connectionString": {
+			"value": ""
+		},
+		"LS_SAP_password": {
+			"value": ""
+		},
+		"LS_properties_typeProperties_clientId": {
+			"value": "700"
+		},
+		"LS_properties_typeProperties_userName": {
+			"value": "EY_PROJECT"
+		},
+		"LS_properties_typeProperties_server": {
+			"value": "100.70.82.172"
+		},
+		"LS_properties_typeProperties_systemNumber": {
+			"value": "01"
+		},
+		"LS_SAP_properties_typeProperties_clientId": {
+			"value": "700"
+		},
+		"LS_SAP_properties_typeProperties_userName": {
+			"value": "EY_PROJECT"
+		},
+		"LS_SAP_properties_typeProperties_server": {
+			"value": "100.70.82.172"
+		},
+		"LS_SAP_properties_typeProperties_systemNumber": {
+			"value": "01"
+		}
+	}
+}

@@ -1,0 +1,186 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "Anmol-Azure-DataFactory"
+		},
+		"LS_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS'"
+		},
+		"LS_Blob_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LS_Blob'"
+		},
+		"LS_Blob_Dev_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LS_Blob_Dev'"
+		},
+		"LS_SAP_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_SAP'"
+		},
+		"LS_properties_typeProperties_clientId": {
+			"type": "string",
+			"defaultValue": "700"
+		},
+		"LS_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "EY_PROJECT"
+		},
+		"LS_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "100.70.82.172"
+		},
+		"LS_properties_typeProperties_systemNumber": {
+			"type": "string",
+			"defaultValue": "01"
+		},
+		"LS_SAP_properties_typeProperties_clientId": {
+			"type": "string",
+			"defaultValue": "700"
+		},
+		"LS_SAP_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "EY_PROJECT"
+		},
+		"LS_SAP_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "100.70.82.172"
+		},
+		"LS_SAP_properties_typeProperties_systemNumber": {
+			"type": "string",
+			"defaultValue": "01"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "Anmol-Azure-DataFactory_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"LS_Blob_connectionString": {
+						"value": "[parameters('LS_Blob_connectionString')]"
+					},
+					"LS_Blob_Dev_connectionString": {
+						"value": "[parameters('LS_Blob_Dev_connectionString')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "Anmol-Azure-DataFactory_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"LS_password": {
+						"value": "[parameters('LS_password')]"
+					},
+					"LS_SAP_password": {
+						"value": "[parameters('LS_SAP_password')]"
+					},
+					"LS_properties_typeProperties_clientId": {
+						"value": "[parameters('LS_properties_typeProperties_clientId')]"
+					},
+					"LS_properties_typeProperties_userName": {
+						"value": "[parameters('LS_properties_typeProperties_userName')]"
+					},
+					"LS_properties_typeProperties_server": {
+						"value": "[parameters('LS_properties_typeProperties_server')]"
+					},
+					"LS_properties_typeProperties_systemNumber": {
+						"value": "[parameters('LS_properties_typeProperties_systemNumber')]"
+					},
+					"LS_SAP_properties_typeProperties_clientId": {
+						"value": "[parameters('LS_SAP_properties_typeProperties_clientId')]"
+					},
+					"LS_SAP_properties_typeProperties_userName": {
+						"value": "[parameters('LS_SAP_properties_typeProperties_userName')]"
+					},
+					"LS_SAP_properties_typeProperties_server": {
+						"value": "[parameters('LS_SAP_properties_typeProperties_server')]"
+					},
+					"LS_SAP_properties_typeProperties_systemNumber": {
+						"value": "[parameters('LS_SAP_properties_typeProperties_systemNumber')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'Anmol-Azure-DataFactory_ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "Anmol-Azure-DataFactory_ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'Anmol-Azure-DataFactory_ArmTemplate_1')]"
+			]
+		},
+		{
+			"name": "Anmol-Azure-DataFactory_ArmTemplate_3",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_3.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'Anmol-Azure-DataFactory_ArmTemplate_2')]"
+			]
+		}
+	]
+}

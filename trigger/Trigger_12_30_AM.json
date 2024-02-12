@@ -2,7 +2,7 @@
 	"name": "Trigger_12_30_AM",
 	"properties": {
 		"annotations": [],
-		"runtimeState": "Started",
+		"runtimeState": "Stopped",
 		"pipelines": [
 			{
 				"pipelineReference": {

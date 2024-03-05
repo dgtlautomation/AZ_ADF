@@ -1,0 +1,21 @@
+{
+	"name": "LS_SFTP",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "Sftp",
+		"typeProperties": {
+			"host": "integrationdata.bizom.in",
+			"port": 22,
+			"skipHostKeyValidation": false,
+			"hostKeyFingerprint": "ssh-rsa 2048 0b:90:81:e4:a0:84:cb:c0:ea:b0:43:d0:5d:5b:b2:81",
+			"authenticationType": "Basic",
+			"userName": "anmolpragati",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIyMzIwMjViMC05MWZmLTQ1NzktYTY4YS05MWY3YmMzNGRiYmQiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "Anmol-SelfHosted-integrationRuntime1",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

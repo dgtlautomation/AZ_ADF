@@ -21,7 +21,7 @@
 							"type": "SftpReadSettings",
 							"recursive": true,
 							"wildcardFolderPath": {
-								"value": "/integrationftp.bizom.in/anmolpragati/bizom/Staging/Datalake/User_Master_Dump",
+								"value": "/integrationftp.bizom.in/anmolpragati/bizom/Staging/Datalake/Distributor_List",
 								"type": "Expression"
 							},
 							"wildcardFileName": "*",

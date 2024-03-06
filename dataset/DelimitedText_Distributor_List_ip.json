@@ -11,7 +11,10 @@
 			"location": {
 				"type": "SftpLocation"
 			},
-			"columnDelimiter": "^",
+			"columnDelimiter": {
+				"value": "^",
+				"type": "Expression"
+			},
 			"escapeChar": "\\",
 			"firstRowAsHeader": true,
 			"quoteChar": ""

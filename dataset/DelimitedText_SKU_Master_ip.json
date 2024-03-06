@@ -9,12 +9,16 @@
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
-				"type": "SftpLocation"
+				"type": "SftpLocation",
+				"folderPath": "/integrationftp.bizom.in/anmolpragati/bizom/Staging/Datalake/SKU_Master"
 			},
-			"columnDelimiter": ",",
+			"columnDelimiter": {
+				"value": "^",
+				"type": "Expression"
+			},
 			"escapeChar": "\\",
 			"firstRowAsHeader": true,
-			"quoteChar": "\""
+			"quoteChar": ""
 		},
 		"schema": []
 	}

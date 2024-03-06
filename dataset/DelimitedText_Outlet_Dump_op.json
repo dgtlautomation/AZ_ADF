@@ -1,0 +1,25 @@
+{
+	"name": "DelimitedText_Outlet_Dump_op",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_Blob",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"container": "anmol-dev"
+			},
+			"columnDelimiter": {
+				"value": "^",
+				"type": "Expression"
+			},
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": ""
+		},
+		"schema": []
+	}
+}

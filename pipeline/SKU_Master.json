@@ -1,9 +1,9 @@
 {
-	"name": "LS_SFTP",
+	"name": "SKU_Master",
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1 SFTP",
+				"name": "Copy data SKU_Master",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -68,7 +68,7 @@
 			}
 		],
 		"folder": {
-			"name": "Master"
+			"name": "Bizom/Bizom_Master"
 		},
 		"annotations": []
 	}

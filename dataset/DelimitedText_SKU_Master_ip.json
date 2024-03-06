@@ -9,8 +9,7 @@
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
-				"type": "SftpLocation",
-				"folderPath": "/integrationftp.bizom.in/anmolpragati/bizom/Staging/Datalake/SKU_Master"
+				"type": "SftpLocation"
 			},
 			"columnDelimiter": {
 				"value": "^",

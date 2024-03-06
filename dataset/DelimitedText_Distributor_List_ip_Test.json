@@ -1,5 +1,5 @@
 {
-	"name": "DelimitedText_Distributor_List_ip",
+	"name": "DelimitedText_Distributor_List_ip_Test",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_SFTP",

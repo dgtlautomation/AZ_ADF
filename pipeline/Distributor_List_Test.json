@@ -1,5 +1,5 @@
 {
-	"name": "Distributor_List",
+	"name": "Distributor_List_Test",
 	"properties": {
 		"activities": [
 			{
@@ -55,13 +55,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "DelimitedText_Distributor_List_ip",
+						"referenceName": "DelimitedText_Distributor_List_ip_Test",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "DelimitedText_Distributor_List_op",
+						"referenceName": "DelimitedText_Distributor_List_op_Test",
 						"type": "DatasetReference"
 					}
 				]

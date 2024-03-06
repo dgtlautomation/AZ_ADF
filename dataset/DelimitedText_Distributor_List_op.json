@@ -12,10 +12,10 @@
 				"type": "AzureBlobStorageLocation",
 				"container": "anmol-dev"
 			},
-			"columnDelimiter": ",",
+			"columnDelimiter": "^",
 			"escapeChar": "\\",
 			"firstRowAsHeader": true,
-			"quoteChar": "\""
+			"quoteChar": ""
 		},
 		"schema": []
 	}

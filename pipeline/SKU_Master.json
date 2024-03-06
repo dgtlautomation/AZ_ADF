@@ -21,10 +21,10 @@
 							"type": "SftpReadSettings",
 							"recursive": true,
 							"wildcardFolderPath": {
-								"value": "/integrationftp.bizom.in/anmolpragati/bizom/Staging/Datalake/Distributor_List",
+								"value": "/integrationftp.bizom.in/anmolpragati/bizom/Staging/Datalake/SKU_Master",
 								"type": "Expression"
 							},
-							"wildcardFileName": "Anmol_DataLake_Distributor_List_Report_20240302_165444.csv",
+							"wildcardFileName": "*.csv",
 							"enablePartitionDiscovery": false,
 							"disableChunking": false
 						},
@@ -40,7 +40,7 @@
 						"formatSettings": {
 							"type": "DelimitedTextWriteSettings",
 							"quoteAllText": true,
-							"fileExtension": ".txt"
+							"fileExtension": ".csv"
 						}
 					},
 					"enableStaging": false,

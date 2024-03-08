@@ -1,0 +1,34 @@
+{
+	"name": "DelimitedText_Sales_Register_op",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_Blob",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"blob": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "Bizom_ETL/SalesRegister/@{concat(formatDateTime(utcNow(),'yyyy/MM/dd'))}",
+				"container": {
+					"value": "@dataset().blob",
+					"type": "Expression"
+				}
+			},
+			"columnDelimiter": {
+				"value": "^",
+				"type": "Expression"
+			},
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}

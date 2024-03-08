@@ -1,0 +1,86 @@
+{
+	"name": "Sales_Register",
+	"properties": {
+		"activities": [
+			{
+				"name": "Sales_Register",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "SftpReadSettings",
+							"recursive": true,
+							"wildcardFolderPath": {
+								"value": "/integrationftp.bizom.in/anmolpragati/bizom/Staging/Datalake/SalesRegister",
+								"type": "Expression"
+							},
+							"wildcardFileName": "*",
+							"enablePartitionDiscovery": false,
+							"disableChunking": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".csv"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DelimitedText_Sales_Register_ip",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DelimitedText_Sales_Register_op",
+						"type": "DatasetReference",
+						"parameters": {
+							"blob": {
+								"value": "@pipeline().globalParameters.blob",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			}
+		],
+		"variables": {
+			"Year": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "Bizom/Bizom_Transactional"
+		},
+		"annotations": []
+	}
+}

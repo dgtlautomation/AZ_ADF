@@ -1,9 +1,9 @@
 {
-	"name": "Distributor_List_Test",
+	"name": "Attendance",
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data Distributor_List",
+				"name": "Copy data Attendance",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -21,10 +21,10 @@
 							"type": "SftpReadSettings",
 							"recursive": true,
 							"wildcardFolderPath": {
-								"value": "/integrationftp.bizom.in/anmolpragati/bizom/Staging/Datalake/Distributor_List",
+								"value": "/integrationftp.bizom.in/anmolpragati/bizom/Staging/Datalake/Attendance",
 								"type": "Expression"
 							},
-							"wildcardFileName": "Anmol_DataLake_Distributor_List_Report_20240302_165444.csv",
+							"wildcardFileName": "*",
 							"enablePartitionDiscovery": false,
 							"disableChunking": false
 						},
@@ -62,11 +62,22 @@
 				"outputs": [
 					{
 						"referenceName": "DelimitedText_Distributor_List_op_Test",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"blob": {
+								"value": "@pipeline().globalParameters.blob",
+								"type": "Expression"
+							}
+						}
 					}
 				]
 			}
 		],
+		"variables": {
+			"Year": {
+				"type": "String"
+			}
+		},
 		"folder": {
 			"name": "Bizom/Bizom_Transactional"
 		},

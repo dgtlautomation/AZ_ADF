@@ -62,7 +62,13 @@
 				"outputs": [
 					{
 						"referenceName": "DelimitedText_User_Master_Dump_op",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"blob": {
+								"value": "@pipeline().globalParameters.blob",
+								"type": "Expression"
+							}
+						}
 					}
 				]
 			}

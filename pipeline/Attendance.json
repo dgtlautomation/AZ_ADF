@@ -61,7 +61,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "DelimitedText_Attendance",
+						"referenceName": "DelimitedText_Attendance_op",
 						"type": "DatasetReference",
 						"parameters": {
 							"blob": {

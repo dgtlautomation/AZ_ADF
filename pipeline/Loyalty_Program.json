@@ -62,7 +62,13 @@
 				"outputs": [
 					{
 						"referenceName": "DelimitedText_Loyalty_Program_op",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"blob": {
+								"value": "@pipeline().globalParameters.blob",
+								"type": "Expression"
+							}
+						}
 					}
 				]
 			}

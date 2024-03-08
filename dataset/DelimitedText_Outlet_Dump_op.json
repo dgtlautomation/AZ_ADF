@@ -5,12 +5,21 @@
 			"referenceName": "LS_Blob",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"blob": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"container": "anmol-dev"
+				"folderPath": "Bizom_ETL/Outlet_Dump",
+				"container": {
+					"value": "@dataset().blob",
+					"type": "Expression"
+				}
 			},
 			"columnDelimiter": {
 				"value": "^",

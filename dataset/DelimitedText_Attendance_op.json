@@ -1,5 +1,5 @@
 {
-	"name": "DelimitedText_Attendance",
+	"name": "DelimitedText_Attendance_op",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_Blob",

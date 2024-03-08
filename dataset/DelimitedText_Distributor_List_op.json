@@ -15,7 +15,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"folderPath": "bizom/distributor",
+				"folderPath": "Bizom_ETL/distributor_list",
 				"container": {
 					"value": "@dataset().blob",
 					"type": "Expression"

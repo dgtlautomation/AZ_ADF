@@ -62,7 +62,13 @@
 				"outputs": [
 					{
 						"referenceName": "DelimitedText_SKU_Master_op",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"blob": {
+								"value": "@pipeline().globalParameters.blob",
+								"type": "Expression"
+							}
+						}
 					}
 				]
 			}

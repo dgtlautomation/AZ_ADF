@@ -1,5 +1,5 @@
 {
-	"name": "DelimitedText_Distributor_List_op_Test",
+	"name": "DelimitedText_Attendance",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_Blob",

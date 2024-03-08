@@ -61,7 +61,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "DelimitedText_Distributor_List_op_Test",
+						"referenceName": "DelimitedText_Attendance",
 						"type": "DatasetReference",
 						"parameters": {
 							"blob": {

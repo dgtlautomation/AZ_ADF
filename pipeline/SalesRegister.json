@@ -1,9 +1,9 @@
 {
-	"name": "DistributorList",
+	"name": "SalesRegister",
 	"properties": {
 		"activities": [
 			{
-				"name": "Distribution",
+				"name": "Sales Register",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -20,6 +20,8 @@
 						"storeSettings": {
 							"type": "FileServerReadSettings",
 							"recursive": true,
+							"wildcardFolderPath": "Sales Register",
+							"wildcardFileName": "*",
 							"enablePartitionDiscovery": false
 						},
 						"formatSettings": {
@@ -34,7 +36,7 @@
 						"formatSettings": {
 							"type": "DelimitedTextWriteSettings",
 							"quoteAllText": true,
-							"fileExtension": ".txt"
+							"fileExtension": ".csv"
 						}
 					},
 					"enableStaging": false,

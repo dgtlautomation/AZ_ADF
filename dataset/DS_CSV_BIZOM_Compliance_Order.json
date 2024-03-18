@@ -1,0 +1,34 @@
+{
+	"name": "DS_CSV_BIZOM_Compliance_Order",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_Blob",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"blob": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "BIZOM/compliance_report",
+				"container": {
+					"value": "@dataset().blob",
+					"type": "Expression"
+				}
+			},
+			"columnDelimiter": {
+				"value": "^",
+				"type": "Expression"
+			},
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": ""
+		},
+		"schema": []
+	}
+}

@@ -1,9 +1,9 @@
 {
-	"name": "Attendance_",
+	"name": "Attendance",
 	"properties": {
 		"activities": [
 			{
-				"name": "Attendance",
+				"name": "Copy data Attendance",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -18,11 +18,15 @@
 					"source": {
 						"type": "DelimitedTextSource",
 						"storeSettings": {
-							"type": "FileServerReadSettings",
+							"type": "SftpReadSettings",
 							"recursive": true,
-							"wildcardFolderPath": "Attendance",
+							"wildcardFolderPath": {
+								"value": "/integrationftp.bizom.in/anmolpragati/bizom/Staging/Datalake/Attendance",
+								"type": "Expression"
+							},
 							"wildcardFileName": "*",
-							"enablePartitionDiscovery": false
+							"enablePartitionDiscovery": false,
+							"disableChunking": false
 						},
 						"formatSettings": {
 							"type": "DelimitedTextReadSettings"
@@ -51,13 +55,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "DelimitedText1_Attendance",
+						"referenceName": "DelimitedText_Distributor_List_ip_Test",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "DS_CSV_Attendance",
+						"referenceName": "DelimitedText_Attendance_op",
 						"type": "DatasetReference",
 						"parameters": {
 							"blob": {
@@ -69,8 +73,13 @@
 				]
 			}
 		],
+		"variables": {
+			"Year": {
+				"type": "String"
+			}
+		},
 		"folder": {
-			"name": "Bizom"
+			"name": "Bizom/Bizom_Transactional"
 		},
 		"annotations": []
 	}

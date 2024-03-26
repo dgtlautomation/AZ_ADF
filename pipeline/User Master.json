@@ -20,6 +20,14 @@
 						"storeSettings": {
 							"type": "FileServerReadSettings",
 							"recursive": true,
+							"modifiedDatetimeStart": {
+								"value": "@formatDateTime(addDays(convertTimeZone(utcNow(),'UTC','India Standard Time'),-1),'yyyy-MM-ddT00:00:00Z')",
+								"type": "Expression"
+							},
+							"modifiedDatetimeEnd": {
+								"value": "@formatDateTime(convertTimeZone(utcNow(),'UTC','India Standard Time'),'yyyy-MM-ddT16:00:00Z')",
+								"type": "Expression"
+							},
 							"wildcardFolderPath": "User Master",
 							"wildcardFileName": "*",
 							"enablePartitionDiscovery": false

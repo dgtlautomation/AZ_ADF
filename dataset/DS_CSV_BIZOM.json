@@ -15,7 +15,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"folderPath": "BIZOM/sales_register",
+				"folderPath": "BIZOM/sales_register_report",
 				"container": {
 					"value": "@dataset().blob",
 					"type": "Expression"

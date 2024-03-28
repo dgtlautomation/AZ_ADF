@@ -1,0 +1,75 @@
+{
+	"name": "DelimitedText1_ASM_Budget",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_FILE_SERVER_BIZOM",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "FileServerLocation",
+				"folderPath": "ASM_Budget"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Zone",
+				"type": "String"
+			},
+			{
+				"name": "Subzone",
+				"type": "String"
+			},
+			{
+				"name": "Distributor_id",
+				"type": "String"
+			},
+			{
+				"name": "Distributor_Type",
+				"type": "String"
+			},
+			{
+				"name": "Distributor_name",
+				"type": "String"
+			},
+			{
+				"name": "Distributor_Outlet_Id",
+				"type": "String"
+			},
+			{
+				"name": "distributor_erp_code",
+				"type": "String"
+			},
+			{
+				"name": "warehouse_id",
+				"type": "String"
+			},
+			{
+				"name": "warehouse_name",
+				"type": "String"
+			},
+			{
+				"name": "Warehouse_Type",
+				"type": "String"
+			},
+			{
+				"name": "Latitude",
+				"type": "String"
+			},
+			{
+				"name": "Longitude",
+				"type": "String"
+			},
+			{
+				"name": "Created_Date_of_distributor",
+				"type": "String"
+			}
+		]
+	}
+}
